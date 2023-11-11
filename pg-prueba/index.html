@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Responsive | Prueba publicisgroupe</title>
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    p, h1, h2, h3, h4, h5 {
+      margin: 0; /* Elimina el margen predeterminado */
+      padding: 0; /* Elimina el padding predeterminado */
+      font-weight: normal;
+    }
+
+    .menu {
+      background-color: #000;
+      color: #fff;
+      padding: 10px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-around; /* Alinea los elementos horizontalmente en escritorio */
+      flex-direction: row; /* Asegura que el menú sea horizontal en escritorio por defecto */
+    }
+
+    /* Estilos para los elementos del menú */
+    .menu-item {
+      margin-bottom: 10px;
+      position: relative;
+    }
+    
+    /* Estilos específicos para "About Us" */
+    .menu-item:not(:last-child) {
+      border-right: 1px solid #fff;
+      padding-right: 75px; /* Añade espacio entre los elementos y el borde derecho */
+    }
+
+    /* Estilos específicos para dispositivos pequeños */
+    @media screen and (max-width: 600px) {
+       td {
+        border-radius: 0!important;
+      }
+      
+        h4, h5 {
+        font-size: 20px !important;
+      }  
+      .container {
+        width: 100%;
+      }
+      .columns {
+        flex-direction: column;
+      }
+      .column {
+        flex: 1;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .column, p {
+        font-size: 16px !important;
+      }
+
+      .column table {
+        width: 100%;
+      }
+      .menu {
+        flex-direction: column; /* Cambia la dirección del menú a vertical en dispositivos móviles */
+        align-items: center; /* Alinea los elementos al centro en dispositivos móviles */
+      }
+
+      .menu-item {
+        margin-bottom: 10px; /* Añade espacio entre los elementos del menú en dispositivos móviles */
+        margin-right: 0; /* Reinicia el margen derecho para dispositivos móviles */
+      }
+      .menu-item:not(:last-child){
+        border: none;
+        padding: 10px;
+      }
+    }
+
+    
+      
+  </style>
+</head>
+<body>
+  <table class="container" align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="border:1px solid #f1f1f1f1">
+    <!--Header-->
+    <tr>
+      <td style="background-color: #e9e9e9; padding: 20px;" colspan="2">
+        <h4>SUBJECT LINE:</h4> 
+        <p style="font-size: 12px;">Email Template Sample Prodigious</p>
+      </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="columns" style="display: flex;">
+                <div class="column" style="flex: 1; box-sizing: border-box; padding: 20px;">
+                    <h5 style="font-size: 12px;">Prodigious</h5>
+                    <p style="font-size: 9px;">Having trouble viewing this email? <a href="#">Click here.</a></p>
+                    <img src="./assets/logo-prodigious.png" alt="logo prodigious" style="padding: 10px 0px;">
+                </div>
+                <div class="column" style="flex: 1; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column; align-items: flex-end;">
+                    <table width="80%" cellpadding="0" cellspacing="0" border="0">
+                        <tbody>
+                        <tr>
+                        <td style="background-color:#000; color: #fff; padding: 8px; display: flex; align-items:end; border-radius:5px 5px 0px 0px; border: 1px solid #000;">
+                            <img src="/assets/lock.png" alt="lock" width="18px">
+                            <p style="font-size: 12px;">EMAIL SECURITY ZONE</p></td>
+                        </tr>
+                        <tr>
+                        <td style="border-radius:0px 0px 5px 5px; border: 1px solid #000;">
+                        <p style="font-size: 13px; padding: 8px;">Member: Elizabeth Moriarty<br>Member Since: 2009</p>
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <p style="font-size: 10px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </div>
+        </td>
+    </tr>
+    <!--Fin Header-->
+    <!--Hero-->
+    <tr>
+        <td style="padding: 0px 20px;">
+            <div class="columns" style="display: flex; background: url('/assets/hero-background.jpg') center center / cover no-repeat;">
+                <div class="column" style="flex: 1; box-sizing: border-box; padding: 20px;">
+                    <div style="display: flex; align-items:center">
+                    <img src="/assets/check.png" alt="check" width="25px" style="padding-right: 10px;"><p>NUNC QUIS MASSA</p>
+                    </div>
+                    <h2>Donec lacinia sem ut diam efficitur pharetra</h2> 
+                </div>
+                <div class="column" style=" flex: 1; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column; align-items: flex-end;">
+                    <a href="#" style="background-color:#92c01f; padding: 12px 40px; margin: 100px -20px 0px 0px; text-decoration: none; color:#fff">LEARN MORE ></a>     
+                </div>
+              </div>
+        </td>
+    </tr>
+    <!--Fin Hero-->
+    <!--Cuerpo-->
+    <tr>
+        <td style="padding: 20px 60px; font-size:19px;">
+            <p>
+               <strong>Suspendisse ligula tellus, consequat eget pharetra non, facilisis quis arcu. Morbi eget leo tortor. Etiam enim nunc, cursus sed ex at, tempus elementum eros. </strong>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 20px 60px;">
+            <h2 style="color: #92c01f;">Pellentesque habitant morbi tristique:</h2>
+            <div class="columns" style="display: flex;">
+                <div class="column" style="flex: 1; box-sizing: border-box; ">
+                    <div style="display: flex; align-items:center">
+                        <img src="/assets/morbi.png" alt="check" width="30%" style="padding-right: 20px;"><p><strong>Morbi egetleo</strong><br> Nulla lobortis semper odio, vitae cursus nulla fringilla non. Nullam nec euismod quam.</p>
+                    </div> 
+                    
+                </div>
+                <div class="column" style="flex: 1; box-sizing: border-box; display: flex; flex-direction: column; align-items: flex-end;">
+                    <div style="display: flex; align-items:center">
+                        <img src="/assets/idea.png" alt="check" width="30%" style="padding-right: 20px;"><p><strong>Morbi egetleo</strong><br> Nulla lobortis semper odio, vitae cursus nulla fringilla non. Nullam nec euismod quam.</p>
+                    </div> 
+                </div>
+              </div>
+        </td>
+    </tr>
+    <!--Fin Cuerpo-->
+    <!--Cta-->
+        <tr>
+            <td style="padding:20px;">
+                <div class="columns" style="display: flex; background-color: #92c01f;">
+                    <!-- Contenedor del 70% con imagen y texto -->
+                    <div style="flex: 70%; box-sizing: border-box; padding: 20px;">
+                        <div style="display: flex; align-items:center">
+                            <img src="/assets/shape.png" alt="shape" width="30px" style="padding-right: 20px;"><p><strong>Morbi eget leo tortor. Etiam enim nunc, cursus sed ex at.</strong></p>
+                        </div>
+                </div>
+      
+                <!-- Contenedor del 30% con enlace -->
+                <div style="flex: 30%;
+                background-color: #92c01f;
+                color: #fff;
+                box-sizing: border-box;
+                padding: 30px  20px;">
+                 <a href="#" style=" background-color:#000; text-decoration: none; color: #fff; padding: 10px 20px;">
+                 Get Started
+                </a>
+                </div>
+                    
+                  </div>
+            </td>
+        </tr>
+    <!--Fin Cta-->
+    <!--menu-->
+    <tr>
+        <td style="padding: 0px 20px;">
+            <div class="menu">
+                <!-- Elementos del menú -->
+                <div class="menu-item">Home</div>
+                <div class="menu-item">About Us</div>
+                <div class="menu-item">Contact Us</div>
+              </div>
+        </td>
+    </tr>
+    <!--fin menu-->
+    <tr>
+        <td>
+            <p>
+                <h3 style="text-align: center;">CONNECT WITH US</h3>
+                <hr>
+            </p>
+            <div style="font-size:0; text-align:center; background-color:#252029;">
+                
+                <div class="column" style=" max-width:95px; display:inline-block; vertical-align:top; border: 0;">
+                    <div style="padding:5px;font-size:14px;line-height:18px;">
+                        <p style="border-top: 0px; border-bottom: 10px;">
+                            <a href="https://gt.iqos.com/es/tienda/iqos/3.0-duo" alias="comprar_en_linea_icon" target="_blank">
+                                <img src="assets/iconos-buy.png" width="85" alt="Comprar en Linea" style="width:85px;max-width:100%;height:auto;">
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="column" style="max-width:95px;display:inline-block;vertical-align:top;  border: 0;">
+                    <div style="padding:5px;font-size:14px;line-height:18px;">
+                        <p style="border-top: 0px; border-bottom: 10px;">
+                            <a href="https://gt.iqos.com/es/tiendas" alias="location_icon" target="_blank">
+                                <img src="assets/iconos-location.png" width="85" alt="Encúentranos" style="width:85px;max-width:100%;height:auto;">
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="column" style="max-width:95px;display:inline-block;vertical-align:top; border:0;">
+                    <div style="padding:5px;font-size:14px;line-height:18px;">
+                        <p style="border-top: 0px; border-bottom: 10px;">
+                            <a href="mailto:contact.gt@iqos.com" alias="escribenos_icon" target="_blank">
+                                <img src="assets/iconos-email.png" width="85" alt="Escríbenos" style="width:85px;max-width:100%;height:auto;">
+                            </a>
+                        </p>
+                    </div>
+                </div>
+             
+                <div class="column" style="max-width:95px;display:inline-block;vertical-align:top; border:0;">
+                    <div style="padding:5px;font-size:14px;line-height:18px;">
+                        <p style="border-top: 0px; border-bottom: 10px;">
+                            <a href="tel:18003000159" alias="Llamanos_icon" target="_blank">
+                                <img src="assets/iconos-CallCenter.png" width="85" alt="Llámanos" style="width:85px;max-width:100%;height:auto;">
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 20px;">
+            <table style="border: 1px solid;">
+                <tbody>
+                <tr>
+                <td style="background: #000; color:#fff; width: 40%;">EMAIL SECURITY ZONE</td>
+                <td >&nbsp;</td>
+                </tr>
+                <tr>
+                <td colspan="2">
+                <p>At the top of this message, you'll see an E-mail Security Zone. Its purpose is to help you verify that the e-mail was indeed sent by Prodigious. If you have questions, please call the customer service phone number on the bottom of our website.</p>
+                </td>
+                </tr>
+                </tbody>
+                </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div style="text-align: center;"><a href="#" rel="noopener">Privacy </a>&nbsp;| &nbsp;<a href="#" rel="noopener">Security</a></div>
+<div style="text-align: center;">&nbsp;</div>
+<div style="text-align: center;">Prodigious Worldwide is part of Publicis Groupe’s network</div>
+<div style="text-align: center;">&nbsp;</div>
+<div style="text-align: center;">Disclosure: Vestibulum vitae faucibus eros. Nulla mattis velit non lectus sodales consequat. Etiam vel magna et massa hendrerit viverra et ut magna. <a href="#" rel="noopener">Curabitur posuere, sapien non porta ultrices,</a> nulla eros convallis nisi, ac congue sapien urna eget purus. Donec justo ipsum, pulvinar at aliquet eu, dictum porttitor tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In bibendum eget magna eget consectetur.</div>
+<div style="text-align: center;">&nbsp;</div>
+<div style="text-align: center;">Copyright Prodigious 2017. All Rights Reserved.</div>
+        </td>
+    </tr>
+    
+  </table>
+</body>
+</html>
