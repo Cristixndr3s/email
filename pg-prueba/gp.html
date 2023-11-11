@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menú Responsive</title>
+  <title>Email Responsive</title>
+
+</head>
+<body>
+
+
   <style>
     /* Estilos generales */
     body {
@@ -12,49 +17,59 @@
       padding: 0;
     }
 
-    /* Estilos para el menú */
-    .menu {
-      background-color: #000;
-      color: #fff;
-      padding: 10px;
-      box-sizing: border-box;
+    /* Estilos para divs en escritorio */
+    .columns {
       display: flex;
-      justify-content: space-around; /* Alinea los elementos horizontalmente en escritorio */
-      flex-direction: row; /* Asegura que el menú sea horizontal en escritorio por defecto */
     }
 
-    /* Estilos para los elementos del menú */
-    .menu-item {
-      margin-bottom: 10px;
-      position: relative;
+    .column {
+      flex: 1;
+      box-sizing: border-box;
+      padding: 20px;
     }
 
-    /* Estilos específicos para dispositivos pequeños */
+    /* Estilos para dispositivos móviles */
     @media screen and (max-width: 600px) {
-      .menu {
-        flex-direction: column; /* Cambia la dirección del menú a vertical en dispositivos móviles */
-        align-items: center; /* Alinea los elementos al centro en dispositivos móviles */
+      .columns {
+        flex-direction: column;
       }
 
-      .menu-item {
-        margin-bottom: 10px; /* Añade espacio entre los elementos del menú en dispositivos móviles */
-        margin-right: 0; /* Reinicia el margen derecho para dispositivos móviles */
+      .column {
+        flex: 1;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 20px; /* Espacio entre los divs en dispositivos móviles */
       }
-    }
-
-    /* Estilos específicos para "About Us" */
-    .menu-item:not(:last-child) {
-      border-right: 1px solid #fff;
-      padding-right: 10px; /* Añade espacio entre los elementos y el borde derecho */
     }
   </style>
-</head>
-<body>
-  <div class="menu">
-    <!-- Elementos del menú -->
-    <div class="menu-item">Home</div>
-    <div class="menu-item">About Us</div>
-    <div class="menu-item">Contact Us</div>
-  </div>
+  <table align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="width: 100%; max-width: 600px; font-family: Arial, sans-serif; border:1px solid #f1f1f1f1">
+    <tbody>
+      <tr>
+        <td>
+
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div  class="columns" style="display: flex;">
+            <div class="column" style="background-color: #e0e0e0; flex: 1;
+            box-sizing: border-box;
+            padding: 20px;">
+              <!-- Contenido del primer div -->
+              <p>Div 1</p>
+            </div>
+            <div class="column" style="background-color: #f0f0f0; flex: 1;
+            box-sizing: border-box;
+            padding: 20px;">
+              <!-- Contenido del segundo div -->
+              <p>Div 2</p>
+            </div>
+          </div>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
 </body>
 </html>
