@@ -7,65 +7,66 @@
 </head>
 <body>
 
-  <style>
-    /* Estilos generales */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    p, h1, h2, h3, h4, h5 {
-      margin: 0; /* Elimina el margen predeterminado */
-      padding: 0; /* Elimina el padding predeterminado */
-      font-weight: normal;
-    }
-
-    .prueba_columns{
-      display: flex;
-    }
-    .prueba_column_1 {
-      flex: 1;   
-      box-sizing: border-box; 
-      padding: 20px; 
-    }
-    .prueba_column_2{
-      flex: 1;   
-      box-sizing: border-box; 
-      padding: 20px; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: flex-end;
-    }
-  
-    /* Estilos específicos para dispositivos pequeños */
-    @media screen and (max-width: 600px) {
-       td {
-        border-radius: 0!important;
-      }
-      
-        h4, h5 {
-        font-size: 20px !important;
-      }  
-      .prueba_container {
-        width: 100%;
-      }
-      .prueba_columns {
-        flex-direction: column;
-      }
-      .prueba_column_1 .prueba_column_2 {
-        flex: 1;
-        width: 100%;
-        box-sizing: border-box;
-      }
-      .prueba_column, p {
-        font-size: 16px !important;
-      }
-      .prueba_column_2 table {
-        width: 100%;
-      }
-    }  
-  </style>
   <table class="prueba_container" align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="width: 100%; max-width: 600px; font-family: Arial, sans-serif; border:1px solid #f1f1f1f1">
+    <style>
+      /* Estilos generales */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      p, h1, h2, h3, h4, h5 {
+        margin: 0; /* Elimina el margen predeterminado */
+        padding: 0; /* Elimina el padding predeterminado */
+        font-weight: normal;
+      }
+  
+      .prueba_columns{
+        display: flex;
+      }
+      .prueba_column_1 {
+        flex: 1;   
+        box-sizing: border-box; 
+        padding: 20px; 
+      }
+      .prueba_column_2{
+        flex: 1;   
+        box-sizing: border-box; 
+        padding: 20px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: flex-end;
+      }
+    
+      /* Estilos específicos para dispositivos pequeños */
+      @media screen and (max-width: 600px) {
+         td {
+          border-radius: 0!important;
+        }
+        
+          h4, h5 {
+          font-size: 20px !important;
+        }  
+        .prueba_container {
+          width: 100%;
+        }
+        .prueba_columns {
+          flex-direction: column;
+        }
+        .prueba_column_1 .prueba_column_2 {
+          flex: 1;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        .prueba_column, p {
+          font-size: 16px !important;
+        }
+        .prueba_column_2 table {
+          width: 100%;
+        }
+      }  
+    </style>
+
     <!--Header-->
     <tbody>
     <tr>
