@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="number"], select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ed5136;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #000;
+}
+
+.hidden {
+  display: none;
+}
+
+#results {
+  margin-top: 20px;
+}
+
+.results-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.result-label {
+  font-weight: bold;
+  flex-basis: 200px;
+}
+
+.result-value {
+  flex-grow: 1;
+  text-align: end;
+  font-weight: bold;
+}
+.icon {
+  width: 35px; /* Ajusta el tamaño según sea necesario */
+  height: 35px;
+  margin-right: 10px;
+}
+
+</style>
+    <div class="container">
+        <p style="font-size: 20px; text-align: center;">Calcula la Rentabilidad en tu <b>RappiCuenta</b></p>
+        <form id="calculator-form">
+          <label for="product">Producto:</label>
+          <select id="product" name="product">
+            <option value="ahorros">Cuenta de ahorros</option>
+            <option value="deposito">Depósito de bajo monto</option>
+          </select>
+          <label for="balance">Saldo Promedio (COP):</label>
+          <input type="number" id="balance" name="balance" min="0">
+          <label for="term">Plazo (meses):</label>
+          <input type="number" id="term" name="term" min="1">
+          <p style="text-align: center;">Tu RappiCuenta no tiene cuota de manejo ni cobros ocultos!</p>
+          <button type="button" id="calculate-btn">Simular</button>
+        </form>
+       
+       <!-- <div id="results" class="hidden">
+          <h3 style="text-align: center;">Resultados simulacion:</h3>
+          <p id="average-balance">Saldo Promedio: </p>
+          <p id="profitability">Rentabilidad en %: </p>
+          <p id="profitability-cop">Rentabilidad en COP: </p>
+        </div>
+ -->       
+        <div id="results" class="hidden">
+            <h3 class="results-title">Resultados de la simulación:</h3>
+            <div class="result-item">
+            <img src="/dolar.png" alt="Imagen de monedas" class="icon">
+              <p class="result-label">Saldo Promedio:</p>
+              <p class="result-value" id="average-balance"></p>
+            </div>
+            <div class="result-item">
+            <img src="/descuento.png" alt="Imagen de monedas" class="icon">
+              <p class="result-label">Rentabilidad e.a:</p>
+              <p class="result-value" id="profitability"></p>
+            </div>
+            <div class="result-item">
+            <img src="/salario.png" alt="Imagen de monedas" class="icon">
+              <p class="result-label">Rentabilidad:</p>
+              <p class="result-value" id="profitability-cop"></p>
+            </div>
+          </div>
+
+        <div id="rappicuenta-msg" class="hidden">
+          <p>
+            "¡Superaste el límite de tu cuenta de bajo monto! ¿Por qué no dar el siguiente paso hacia un futuro financiero más sólido? ¡Abre una cuenta de ahorros hoy mismo y disfruta de mayores beneficios y oportunidades de crecimiento financiero!".</p>
+          <button id="generate-rappicuenta-btn">Generar Rappicuenta</button>
+        </div>
+      </div>
+
+
+      <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('calculator-form');
+  const resultsContainer = document.getElementById('results');
+  const rappicuentaMsg = document.getElementById('rappicuenta-msg');
+  const generateRappicuentaBtn = document.getElementById('generate-rappicuenta-btn');
+  const calculateBtn = document.getElementById('calculate-btn');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+  });
+
+  calculateBtn.addEventListener('click', function() {
+    const product = form.product.value;
+    const balance = parseFloat(form.balance.value);
+    const term = parseInt(form.term.value);
+    const averageBalance = document.getElementById('average-balance');
+    const profitability = document.getElementById('profitability');
+    const profitabilityCOP = document.getElementById('profitability-cop');
+    
+    let interestRate = 0;
+    let profitabilityPercentage = 0;
+    let profitabilityCOPValue = 0;
+
+    if (product === 'ahorros') {
+      interestRate = balance < 2000000 ? 0.07 : 0.10;
+    } else if (product === 'deposito') {
+      interestRate = balance < 8000000 ? 0.07 : NaN;
+    }
+
+    if (!isNaN(interestRate)) {
+      profitabilityPercentage = parseInt(interestRate * 100);
+      profitabilityCOPValue = (balance * profitabilityPercentage / 100).toFixed(2);
+      
+      averageBalance.textContent = `$ ${balance.toLocaleString('es-CO')} Cop`;
+      profitability.textContent = `${profitabilityPercentage} %`;
+      profitabilityCOP.textContent = `$ ${parseFloat(profitabilityCOPValue).toLocaleString('es-CO')} Cop`;
+
+      resultsContainer.classList.remove('hidden');
+      rappicuentaMsg.classList.add('hidden');
+      calculateBtn.textContent = 'Recalcular'; // Cambio de texto del botón
+    } else {
+      resultsContainer.classList.add('hidden');
+      rappicuentaMsg.classList.remove('hidden');
+    }
+  });
+
+  generateRappicuentaBtn.addEventListener('click', function() {
+    // Aquí puedes agregar la lógica para generar la Rappicuenta
+    alert('Rappicuenta generada.');
+  });
+});
+
+
+
+      </script>
+    
+</body>
+</html>
