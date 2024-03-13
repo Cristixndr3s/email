@@ -13,7 +13,7 @@
   padding: 0;
 }
 
-.container {
+.container-calculadora {
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;
@@ -103,7 +103,7 @@ button:hover {
 }
 
 </style>
-    <div class="container">
+    <div class="container-calculadora">
         <p style="font-size: 20px; text-align: center;">Calcula la Rentabilidad en tu <b>RappiCuenta</b></p>
         <form id="calculator-form">
           <label for="product">Producto:</label>
@@ -140,9 +140,14 @@ button:hover {
             </div>
             <div class="result-item">
             <img src="./salario.png" alt="Imagen de monedas" class="icon">
-              <p class="result-label">Rentabilidad:</p>
+              <p class="result-label">Rentabilidad Mensual:</p>
               <p class="result-value" id="profitability-cop"></p>
             </div>
+            <div class="result-item">
+              <img src="./salario.png" alt="Imagen de monedas" class="icon">
+                <p class="result-label">Rentabilidad Anual:</p>
+                <p class="result-value" id="monthly-profitability-cop"></p>
+              </div>
           </div>
 
         <div id="rappicuenta-msg" class="hidden">
@@ -154,6 +159,7 @@ button:hover {
 
 
       <script>
+
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('calculator-form');
   const resultsContainer = document.getElementById('results');
@@ -172,24 +178,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const averageBalance = document.getElementById('average-balance');
     const profitability = document.getElementById('profitability');
     const profitabilityCOP = document.getElementById('profitability-cop');
+    const monthlyProfitabilityCOP = document.getElementById('monthly-profitability-cop');
     
     let interestRate = 0;
     let profitabilityPercentage = 0;
     let profitabilityCOPValue = 0;
+    let monthlyProfitabilityCOPValue = 0;
+    let reteValue = 0;
 
     if (product === 'ahorros') {
       interestRate = balance < 2000000 ? 0.07 : 0.10;
     } else if (product === 'deposito') {
-      interestRate = balance < 8000000 ? 0.07 : NaN;
+      interestRate = balance < 9900000 ? 0.07 : NaN;
     }
 
     if (!isNaN(interestRate)) {
       profitabilityPercentage = parseInt(interestRate * 100);
-      profitabilityCOPValue = (balance * profitabilityPercentage / 100).toFixed(2);
-      
-      averageBalance.textContent = `$ ${balance.toLocaleString('es-CO')} Cop`;
-      profitability.textContent = `${profitabilityPercentage} %`;
-      profitabilityCOP.textContent = `$ ${parseFloat(profitabilityCOPValue).toLocaleString('es-CO')} Cop`;
+      profitabilityCOPValue = ((balance * ((profitabilityPercentage / 100)/12))).toFixed(2);
+      monthlyProfitabilityCOPValue = ((profitabilityCOPValue * term)).toFixed(2);
+
+      // Verificar si profitabilityCOPValue es mayor a 2588 para aplicar la retención
+      if (parseFloat(profitabilityCOPValue) > 2588) {
+      retentionValue = (profitabilityCOPValue * 0.07).toFixed(2); // Retención del 7% sobre la rentabilidad mensual
+      profitabilityCOPValue -= retentionValue; // Restar la retención mensual
+      monthlyProfitabilityCOPValue = ((profitabilityCOPValue * term)).toFixed(2);
+      }
+
+      averageBalance.textContent = `${balance.toLocaleString('es-CO')}$`;
+      profitability.textContent = `${profitabilityPercentage}%`;
+      profitabilityCOP.textContent = `${Math.floor(parseFloat(profitabilityCOPValue)).toLocaleString('es-CO')}$`;
+      monthlyProfitabilityCOP.textContent = `${Math.floor(parseFloat(monthlyProfitabilityCOPValue)).toLocaleString('es-CO')}$`;
 
       resultsContainer.classList.remove('hidden');
       rappicuentaMsg.classList.add('hidden');
@@ -201,12 +219,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   generateRappicuentaBtn.addEventListener('click', function() {
-    // Aquí puedes agregar la lógica para generar la Rappicuenta
-    alert('Rappicuenta generada.');
+    window.location.href = "https://rappi.onelink.me/2373836517/esm0oofo";
   });
 });
-
-
 
       </script>
     
