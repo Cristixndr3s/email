@@ -98,7 +98,7 @@
                 width: 100%
             }
             table {
-                font-size: 2.5vw; /* Ajustar según sea necesario */
+                font-size: 11px; /* Ajustar según sea necesario */
                 overflow-x: auto;
             }
             .input-container-2{
@@ -190,9 +190,8 @@
         
                 var interesMensual = 2.4242; // Interés mensual predefinido
         
-                var fechaCorte = new Date(fecha);
-                fechaCorte.setMonth(fechaCorte.getMonth() + 1); // Fecha de corte un mes después
-        
+                var fechaCorte = new Date(Date.UTC(2024, 2, 21));
+
                 var resumenHTML = '<h2>Resumen de compra</h2>' +
                                     '<table>' +
                                     '<tr><th>Monto </th><td>$' + monto.toLocaleString('es-CO') + '</td></tr>' +
