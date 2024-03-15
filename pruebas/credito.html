@@ -45,6 +45,7 @@
 
         input[type="number"],
         input[type="date"],
+        input[type="text"],
         button {
             width: 100%;
             padding: 10px;
@@ -55,14 +56,14 @@
         }
 
         button {
-            background-color: #007bff;
+            background-color: #000000;
             color: #fff;
             cursor: pointer;
             transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #fe2d2d;
         }
 
         table {
@@ -106,96 +107,128 @@
     </style>
 </head>
 <body>
-     <!-- Contenido HTML -->
-     <h1>Simulador de Tarjeta de Crédito</h1>
-     <div class="container">
-         <div class="input-container">
-             <form id="simuladorForm">
-                 <label for="monto">Ingrese el monto:</label>
-                 <input type="number" id="monto" required><br>
-                 <label for="cuotas">Seleccione el número de cuotas:</label>
-                 <input type="number" id="cuotas" required><br>
-                 <label>Interés mensual: 2.5305%</label><br>
-                 <label for="fecha">Ingrese la fecha de compra:</label>
-                 <input type="date" id="fecha" required><br>
-                 <button type="button" id="calcularButton" onclick="calcular()">Calcular</button>
-             </form>
-         </div>
-         <div class="input-container-2">
-             <div id="resumen"></div>
-             <div id="detalles"></div>
-         </div>
-     </div>
-
-    <script>
-        function calcularCuotas(principal, tasaInteres, cuotas) {
-            const tasaInteresDecimal = tasaInteres / 100 / 12;
-            const cuotaMensual = principal * tasaInteresDecimal / (1 - Math.pow(1 + tasaInteresDecimal, -cuotas));
-            let saldoRestante = principal;
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Simulador de Tarjeta de Crédito</title>
+        <style>
+            /* Estilos CSS aquí */
+        </style>
+    </head>
+    <body>
+        <h1>Simulador de Tarjeta de Crédito</h1>
+        <div class="container">
+            <div class="input-container">
+                <form id="simuladorForm">
+                    <label for="monto">Ingrese el monto (COP):</label>
+                    <input type="text" id="monto" required><br>
+                    <label for="cuotas">Seleccione el número de cuotas:</label>
+                    <input type="number" id="cuotas" required><br>
+                    <label for="fecha">Ingrese la fecha de compra:</label>
+                    <input type="date" id="fecha" required><br>
+                    <label>Interés mensual: 2.5305%</label><br>
+                    <button type="button" id="calcularButton" onclick="calcular()">Calcular</button>
+                </form>
+            </div>
+            <div class="input-container-2">
+                <div id="resumen"></div>
+                <div id="detalles"></div>
+            </div>
+        </div>
     
-            const tablaAmortizacion = [];
+        <script>
+            const montoInput = document.getElementById('monto');
     
-            for (let i = 1; i <= cuotas; i++) {
-                const interesMensual = saldoRestante * tasaInteresDecimal;
-                const capital = cuotaMensual - interesMensual;
-                saldoRestante -= capital;
+            montoInput.addEventListener('input', function() {
+                // Obtener el valor actual del campo de entrada
+                let valor = montoInput.value;
     
-                tablaAmortizacion.push({
-                    cuota: i,
-                    pagoMensual: Math.round(cuotaMensual),
-                    capital: Math.round(capital),
-                    interesMensual: Math.round(interesMensual),
-                    montoRestante: Math.round(saldoRestante)
-                });
-            }
+                // Remover cualquier caracter que no sea un dígito
+                valor = valor.replace(/[^\d]/g, '');
     
-            return tablaAmortizacion;
-        }
+                // Convertir el valor a un número entero
+                let numero = parseInt(valor, 10);
     
-        function calcular() {
-            var monto = parseFloat(document.getElementById('monto').value);
-            var cuotas = parseInt(document.getElementById('cuotas').value);
-            var fecha = new Date(document.getElementById('fecha').value);
+                // Formatear el valor con puntos para separación de miles
+                valor = numero.toLocaleString('es-CO');
     
-            var interesMensual = 2.4242; // Interés mensual predefinido
-    
-            var fechaCorte = new Date(fecha);
-            fechaCorte.setMonth(fechaCorte.getMonth() + 1); // Fecha de corte un mes después
-    
-            var resumenHTML = '<h2>Resumen de compra</h2>' +
-                                '<table>' +
-                                '<tr><th>Monto </th><td>$' + monto.toLocaleString('es-CO') + '</td></tr>' +
-                                '<tr><th>Interés</th><td>' + interesMensual.toFixed(4) + '%</td></tr>' +
-                                '<tr><th>Mensualidad </th><td>$' + Math.round(monto / cuotas).toLocaleString('es-CO') + '</td></tr>' +
-                                '<tr><th>Fecha de corte</th><td>' + fechaCorte.toLocaleDateString() + '</td></tr>' +
-                                '</table>';
-    
-            var detallesHTML = '<h2>Detalles de pagos mensuales</h2>' +
-                                '<table>' +
-                                '<tr><th>Número de mensualidad</th><th>Pago mensual </th><th>Capital </th><th>Interés por mes </th><th>Monto restante </th></tr>';
-    
-            var tabla = calcularCuotas(monto, interesMensual, cuotas);
-    
-            tabla.forEach(cuota => {
-                detallesHTML += '<tr>' +
-                                '<td>' + cuota.cuota + '</td>' +
-                                '<td>$' + cuota.pagoMensual.toLocaleString('es-CO') + '</td>' +
-                                '<td>$' + cuota.capital.toLocaleString('es-CO') + '</td>' +
-                                '<td>$' + cuota.interesMensual.toLocaleString('es-CO') + '</td>' +
-                                '<td>$' + cuota.montoRestante.toLocaleString('es-CO') + '</td>' +
-                                '</tr>';
+                // Actualizar el valor del campo de entrada
+                montoInput.value = valor;
             });
-            
     
-            detallesHTML += '</table>';
+            function calcularCuotas(principal, tasaInteres, cuotas) {
+                const tasaInteresDecimal = tasaInteres / 100 / 12;
+                const cuotaMensual = principal * tasaInteresDecimal / (1 - Math.pow(1 + tasaInteresDecimal, -cuotas));
+                let saldoRestante = principal;
+        
+                const tablaAmortizacion = [];
+        
+                for (let i = 1; i <= cuotas; i++) {
+                    const interesMensual = saldoRestante * tasaInteresDecimal;
+                    const capital = cuotaMensual - interesMensual;
+                    saldoRestante -= capital;
+        
+                    tablaAmortizacion.push({
+                        cuota: i,
+                        pagoMensual: Math.round(cuotaMensual),
+                        capital: Math.round(capital),
+                        interesMensual: Math.round(interesMensual),
+                        montoRestante: Math.round(saldoRestante)
+                    });
+                }
+        
+                return tablaAmortizacion;
+            }
+        
+            function calcular() {
+                var monto = parseFloat(document.getElementById('monto').value.replace(/[^\d]/g, ''));
+                var cuotas = parseInt(document.getElementById('cuotas').value);
+                var fecha = new Date(document.getElementById('fecha').value);
+        
+                var interesMensual = 2.4242; // Interés mensual predefinido
+        
+                var fechaCorte = new Date(fecha);
+                fechaCorte.setMonth(fechaCorte.getMonth() + 1); // Fecha de corte un mes después
+        
+                var resumenHTML = '<h2>Resumen de compra</h2>' +
+                                    '<table>' +
+                                    '<tr><th>Monto </th><td>$' + monto.toLocaleString('es-CO') + '</td></tr>' +
+                                    '<tr><th>Interés</th><td>' + interesMensual.toFixed(4) + '%</td></tr>' +
+                                    '<tr><th>Mensualidad </th><td>$' + Math.round(monto / cuotas).toLocaleString('es-CO') + '</td></tr>' +
+                                    '<tr><th>Fecha de corte</th><td>' + fechaCorte.toLocaleDateString() + '</td></tr>' +
+                                    '</table>';
+        
+                var detallesHTML = '<h2>Detalles de pagos mensuales</h2>' +
+                                    '<table>' +
+                                    '<tr><th>Número de mensualidad</th><th>Pago mensual </th><th>Capital </th><th>Interés por mes </th><th>Monto restante </th></tr>';
+        
+                var tabla = calcularCuotas(monto, interesMensual, cuotas);
+        
+                tabla.forEach(cuota => {
+                    detallesHTML += '<tr>' +
+                                    '<td>' + cuota.cuota + '</td>' +
+                                    '<td>$' + cuota.pagoMensual.toLocaleString('es-CO') + '</td>' +
+                                    '<td>$' + cuota.capital.toLocaleString('es-CO') + '</td>' +
+                                    '<td>$' + cuota.interesMensual.toLocaleString('es-CO') + '</td>' +
+                                    '<td>$' + cuota.montoRestante.toLocaleString('es-CO') + '</td>' +
+                                    '</tr>';
+                });
+                
+        
+                detallesHTML += '</table>';
+        
+                document.getElementById('resumen').innerHTML = resumenHTML;
+                document.getElementById('detalles').innerHTML = detallesHTML;
+        
+                // Cambiar el texto del botón a "Recalcular"
+                document.getElementById('calcularButton').textContent = "Recalcular";
+            }
+        </script>
+    </body>
+    </html>
     
-            document.getElementById('resumen').innerHTML = resumenHTML;
-            document.getElementById('detalles').innerHTML = detallesHTML;
-    
-            // Cambiar el texto del botón a "Recalcular"
-            document.getElementById('calcularButton').textContent = "Recalcular";
-        }
-    </script>
     
 </body>
 </html>
