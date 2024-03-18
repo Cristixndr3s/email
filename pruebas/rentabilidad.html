@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Rentabilidad</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    h2 {
+        margin-top: 30px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Simulador de Rentabilidad</h1>
+    <label for="saldoInicial">Saldo Inicial:</label>
+    <input type="text" id="saldoInicial" placeholder="Ingrese el saldo inicial">
+    <label for="ahorroMensual">Ahorro Mensual:</label>
+    <input type="text" id="ahorroMensual" placeholder="Ingrese el ahorro mensual">
+    <label for="meses">Meses:</label>
+    <input type="number" id="meses" placeholder="Ingrese la cantidad de meses">
+    <button id="calcularBtn" onclick="calcularRentabilidad()">Calcular</button>
+    <h2>Resultados</h2>
+    <table id="resultadosTable">
+        <tr>
+            <th>Periodo</th>
+            <th>Saldo Inicial</th>
+            <th>Abonos</th>
+            <th>Saldo antes de Intereses</th>
+            <th>Intereses</th>
+            <th>Retención</th>
+            <th>Valor Retención</th>
+            <th>Intereses Finales</th>
+            <th>Saldo Final</th>
+        </tr>
+    </table>
+</div>
+<script>
+    function calcularRentabilidad() {
+        var saldoInicial = parseFloat(document.getElementById("saldoInicial").value);
+        var ahorroMensual = parseFloat(document.getElementById("ahorroMensual").value);
+        var meses = parseInt(document.getElementById("meses").value);
+
+        var tasaEA = 0.10;
+        var tasaMensual = Math.pow(1 + tasaEA, 1 / 12) - 1;
+        var retencion = 0.07;
+        var montoRetencion = 10000000;
+
+        var saldoActual = saldoInicial;
+        var resultadosTable = document.getElementById("resultadosTable");
+        resultadosTable.innerHTML = "";
+        
+        // Agregamos los encabezados de la tabla antes de los resultados
+        var encabezados = "<tr>" +
+                          "<th>Periodo</th>" +
+                          "<th>Saldo Inicial</th>" +
+                          "<th>Abonos</th>" +
+                          "<th>Saldo antes de Intereses</th>" +
+                          "<th>Intereses</th>" +
+                          "<th>Retención</th>" +
+                          "<th>Valor Retención</th>" +
+                          "<th>Intereses Finales</th>" +
+                          "<th>Saldo Final</th>" +
+                          "</tr>";
+        resultadosTable.innerHTML = encabezados;
+
+        for (var periodo = 1; periodo <= meses; periodo++) {
+            var saldoAntesIntereses = saldoActual + ahorroMensual;
+            var intereses = saldoAntesIntereses * tasaMensual;
+
+            var retencionAplicada = intereses > montoRetencion ? 1 : 0;
+            var valorRetencion = retencionAplicada * intereses * retencion;
+            var interesesFinales =intereses - valorRetencion;
+
+            var saldoFinal = saldoAntesIntereses + interesesFinales;
+
+            var row = resultadosTable.insertRow();
+            row.innerHTML = "<td>" + periodo + "</td>" +
+                            "<td>" + formatCurrency(saldoActual) + "</td>" +
+                            "<td>" + formatCurrency(ahorroMensual) + "</td>" +
+                            "<td>" + formatCurrency(saldoAntesIntereses) + "</td>" +
+                            "<td>" + formatCurrency(intereses) + "</td>" +
+                            "<td>" + retencionAplicada + "</td>" +
+                            "<td>" + formatCurrency(valorRetencion) + "</td>" +
+                            "<td>" + formatCurrency(interesesFinales) + "</td>" +
+                            "<td>" + formatCurrency(saldoFinal) + "</td>";
+
+            saldoActual = saldoFinal;
+        }
+        
+        // Cambiar el texto del botón a "Recalcular"
+        document.getElementById("calcularBtn").innerText = "Recalcular";
+    }
+
+    function formatCurrency(amount) {
+        return amount.toLocaleString('es-CO', {style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0});
+    }
+</script>
+</body>
+</html>
