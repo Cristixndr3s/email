@@ -32,6 +32,7 @@
     #tablaAdicional {
         display: none; /* Inicialmente oculta la tabla adicional */
         margin-top: 20px;
+        max-width: 90%;
     }
 
     /* Otros estilos */
@@ -96,6 +97,7 @@
         <input type="number" id="meses" placeholder="Ingrese la cantidad de meses">
         <button type="button" id="calcularBtn" onclick="calcularRentabilidad()">Calcular</button>
     </form>
+    <div id="textoAdicional"></div>
 
     <table id="tablaAdicional">
         <tr>
@@ -135,7 +137,7 @@ function calcularRentabilidad() {
 
     var saldoInicial = parseFloat(document.getElementById("saldoInicial").value);
     var ahorroMensual = parseFloat(document.getElementById("ahorroMensual").value);
-    var meses = parseInt(document.getElementById("meses").value);
+    var meses = parseInt(document.getElementById("meses").value)*3;
 
     var tasaEA = 0.10;
     var tasaMensual = Math.pow(1 + tasaEA, 1 / 12) - 1;
@@ -201,6 +203,10 @@ function calcularRentabilidad() {
         "<td>" + formatCurrency(saldosFinales[segundoSegmento - 1]) + "</td>" +
         "<td>" + formatCurrency(saldosFinales[tercerSegmento - 1]) + "</td>" +
         "</tr>";
+
+// Agregar el texto debajo de la tabla adicional
+var textoAdicional = "<p>¡Hola, crack! ¿Sabías que en solo " + primerSegmento + " meses podrías ahorrar " + formatCurrency(saldosFinales[primerSegmento - 1]) + "? ¡Increíble, ¿no?! Pero espera, ¡hay más! Si decides ahorrar durante " + tercerSegmento + " meses, ¡podrías acumular hasta " + formatCurrency(saldosFinales[tercerSegmento - 1]) + " millones! ¿Te imaginas todas las posibilidades que tendrías con ese dinero? Abre tu RappiCuenta ahora y comienza a construir tu futuro financiero. ¡No esperes más para alcanzar tus metas!</p>";
+document.getElementById("textoAdicional").innerHTML = textoAdicional;
 
     // Cambiar el texto del botón "Calcular" a "Recalcular"
     document.getElementById("calcularBtn").innerText = "Recalcular";
