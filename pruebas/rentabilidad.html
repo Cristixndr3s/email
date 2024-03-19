@@ -5,6 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulador de Rentabilidad</title>
 <style>
+    /* Estilos del formulario y botón de calcular */
+    .container form {
+        display: block;
+    }
+
+    /* Estilos de la tabla de resultados */
+    #resultadosTable {
+        display: none; /* Inicialmente oculta la tabla */
+        margin-top: 20px;
+    }
+
+    /* Estilos para el botón "Más información" */
+    #masInformacionBtn {
+        display: none; /* Inicialmente oculta el botón */
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    /* Estilos de la tabla adicional */
+    #tablaAdicional {
+        display: none; /* Inicialmente oculta la tabla adicional */
+        margin-top: 20px;
+    }
+
+    /* Otros estilos */
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -46,7 +76,6 @@
     table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 20px;
     }
     th, td {
         border: 1px solid #ccc;
@@ -58,14 +87,30 @@
 <body>
 <div class="container">
     <h1>Simulador de Rentabilidad</h1>
-    <label for="saldoInicial">Saldo Inicial:</label>
-    <input type="text" id="saldoInicial" placeholder="Ingrese el saldo inicial">
-    <label for="ahorroMensual">Ahorro Mensual:</label>
-    <input type="text" id="ahorroMensual" placeholder="Ingrese el ahorro mensual">
-    <label for="meses">Meses:</label>
-    <input type="number" id="meses" placeholder="Ingrese la cantidad de meses">
-    <button id="calcularBtn" onclick="calcularRentabilidad()">Calcular</button>
-    <h2>Resultados</h2>
+    <form id="calcForm">
+        <label for="saldoInicial">Saldo Inicial:</label>
+        <input type="text" id="saldoInicial" placeholder="Ingrese el saldo inicial">
+        <label for="ahorroMensual">Ahorro Mensual:</label>
+        <input type="text" id="ahorroMensual" placeholder="Ingrese el ahorro mensual">
+        <label for="meses">Meses:</label>
+        <input type="number" id="meses" placeholder="Ingrese la cantidad de meses">
+        <button type="button" id="calcularBtn" onclick="calcularRentabilidad()">Calcular</button>
+    </form>
+
+    <table id="tablaAdicional">
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+        </tr>
+    </table>
+    <div id="masInformacionBtn" onclick="mostrarResultados()">Más información</div>
+    <h2 id="resultadosHeading" style="display: none;">Resultados</h2>
     <table id="resultadosTable">
         <tr>
             <th>Periodo</th>
@@ -81,65 +126,104 @@
     </table>
 </div>
 <script>
-    function calcularRentabilidad() {
-        var saldoInicial = parseFloat(document.getElementById("saldoInicial").value);
-        var ahorroMensual = parseFloat(document.getElementById("ahorroMensual").value);
-        var meses = parseInt(document.getElementById("meses").value);
+var masInformacionPresionado = false;
+var saldosFinales = []; // Arreglo para almacenar los saldos finales de cada período
 
-        var tasaEA = 0.10;
-        var tasaMensual = Math.pow(1 + tasaEA, 1 / 12) - 1;
-        var retencion = 0.07;
-        var montoRetencion = 10000000;
+function calcularRentabilidad() {
+    // Reiniciar el arreglo de saldosFinales
+    saldosFinales = [];
 
-        var saldoActual = saldoInicial;
-        var resultadosTable = document.getElementById("resultadosTable");
-        resultadosTable.innerHTML = "";
-        
-        // Agregamos los encabezados de la tabla antes de los resultados
-        var encabezados = "<tr>" +
-                          "<th>Periodo</th>" +
-                          "<th>Saldo Inicial</th>" +
-                          "<th>Abonos</th>" +
-                          "<th>Saldo antes de Intereses</th>" +
-                          "<th>Intereses</th>" +
-                          "<th>Retención</th>" +
-                          "<th>Valor Retención</th>" +
-                          "<th>Intereses Finales</th>" +
-                          "<th>Saldo Final</th>" +
-                          "</tr>";
-        resultadosTable.innerHTML = encabezados;
+    var saldoInicial = parseFloat(document.getElementById("saldoInicial").value);
+    var ahorroMensual = parseFloat(document.getElementById("ahorroMensual").value);
+    var meses = parseInt(document.getElementById("meses").value);
 
-        for (var periodo = 1; periodo <= meses; periodo++) {
-            var saldoAntesIntereses = saldoActual + ahorroMensual;
-            var intereses = saldoAntesIntereses * tasaMensual;
+    var tasaEA = 0.10;
+    var tasaMensual = Math.pow(1 + tasaEA, 1 / 12) - 1;
+    var retencion = 0.07;
+    var montoRetencion = 10000000;
 
-            var retencionAplicada = intereses > montoRetencion ? 1 : 0;
-            var valorRetencion = retencionAplicada * intereses * retencion;
-            var interesesFinales =intereses - valorRetencion;
+    var saldoActual = saldoInicial;
+    var resultadosTable = document.getElementById("resultadosTable");
+    resultadosTable.innerHTML = "";
+    // Agregamos los encabezados de la tabla antes de los resultados
+    var encabezados = "<tr>" +
+        "<th>Periodo</th>" +
+        "<th>Saldo Inicial</th>" +
+        "<th>Abonos</th>" +
+        "<th>Saldo antes de Intereses</th>" +
+        "<th>Intereses</th>" +
+        "<th>Retención</th>" +
+        "<th>Valor Retención</th>" +
+        "<th>Intereses Finales</th>" +
+        "<th>Saldo Final</th>" +
+        "</tr>";
+    resultadosTable.innerHTML = encabezados;
 
-            var saldoFinal = saldoAntesIntereses + interesesFinales;
+    for (var periodo = 1; periodo <= meses; periodo++) {
+        var saldoAntesIntereses = saldoActual + ahorroMensual;
+        var intereses = saldoAntesIntereses * tasaMensual;
 
-            var row = resultadosTable.insertRow();
-            row.innerHTML = "<td>" + periodo + "</td>" +
-                            "<td>" + formatCurrency(saldoActual) + "</td>" +
-                            "<td>" + formatCurrency(ahorroMensual) + "</td>" +
-                            "<td>" + formatCurrency(saldoAntesIntereses) + "</td>" +
-                            "<td>" + formatCurrency(intereses) + "</td>" +
-                            "<td>" + retencionAplicada + "</td>" +
-                            "<td>" + formatCurrency(valorRetencion) + "</td>" +
-                            "<td>" + formatCurrency(interesesFinales) + "</td>" +
-                            "<td>" + formatCurrency(saldoFinal) + "</td>";
+        var retencionAplicada = intereses > montoRetencion ? 1 : 0;
+        var valorRetencion = retencionAplicada * intereses * retencion;
+        var interesesFinales = intereses - valorRetencion;
 
-            saldoActual = saldoFinal;
-        }
-        
-        // Cambiar el texto del botón a "Recalcular"
-        document.getElementById("calcularBtn").innerText = "Recalcular";
+        var saldoFinal = saldoAntesIntereses + interesesFinales;
+
+        // Almacenar el saldo final en el arreglo
+        saldosFinales.push(saldoFinal);
+
+        var row = resultadosTable.insertRow();
+        row.innerHTML = "<td>" + periodo + "</td>" +
+            "<td>" + formatCurrency(saldoActual) + "</td>" +
+            "<td>" + formatCurrency(ahorroMensual) + "</td>" +
+            "<td>" + formatCurrency(saldoAntesIntereses) + "</td>" +
+            "<td>" + formatCurrency(intereses) + "</td>" +
+            "<td>" + retencionAplicada + "</td>" +
+            "<td>" + formatCurrency(valorRetencion) + "</td>" +
+            "<td>" + formatCurrency(interesesFinales) + "</td>" +
+            "<td>" + formatCurrency(saldoFinal) + "</td>";
+
+        saldoActual = saldoFinal;
     }
 
-    function formatCurrency(amount) {
-        return amount.toLocaleString('es-CO', {style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0});
+    // Llenar la tabla adicional con los segmentos de meses
+    var primerSegmento = Math.ceil(meses / 3);
+    var segundoSegmento = 2 * primerSegmento;
+    var tercerSegmento = meses;
+    document.getElementById("tablaAdicional").innerHTML =
+        "<tr>" +
+        "<td>" + primerSegmento + " meses</td>" +
+        "<td>" + segundoSegmento + " meses</td>" +
+        "<td>" + tercerSegmento + " meses</td>" +
+        "</tr>" +
+        "<tr>" +
+        "<td>" + formatCurrency(saldosFinales[primerSegmento - 1]) + "</td>" +
+        "<td>" + formatCurrency(saldosFinales[segundoSegmento - 1]) + "</td>" +
+        "<td>" + formatCurrency(saldosFinales[tercerSegmento - 1]) + "</td>" +
+        "</tr>";
+
+    // Cambiar el texto del botón "Calcular" a "Recalcular"
+    document.getElementById("calcularBtn").innerText = "Recalcular";
+    // Si el botón "Más información" no se ha presionado antes, mostrarlo
+    if (!masInformacionPresionado) {
+        document.getElementById("masInformacionBtn").style.display = "block";
+        document.getElementById("tablaAdicional").style.display = "block";
     }
+}
+
+function mostrarResultados() {
+    // Mostrar la tabla de resultados y cambiar el texto del botón a "Recalcular"
+    document.getElementById("resultadosTable").style.display = "table";
+    document.getElementById("calcularBtn").innerText = "Recalcular";
+    // Ocultar el botón "Más información"
+    document.getElementById("masInformacionBtn").style.display = "none";
+    // Marcar que el botón "Más información" ha sido presionado
+    masInformacionPresionado = true;
+}
+
+function formatCurrency(amount) {
+    return amount.toLocaleString('es-CO', {style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0});
+}
 </script>
 </body>
 </html>
