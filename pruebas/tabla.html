@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabla Estilizada</title>
+<style>
+
+    
+    /* Estilo para el contenedor de la tabla */
+    .contenedorTabla {
+      width: 80%;
+      margin: 50px auto;
+      overflow-x: auto; /* Permite el desplazamiento horizontal si el contenido es demasiado ancho */
+    }
+    
+    /* Estilo para la tabla */
+    #tablaAdicional {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden; /* Para ocultar los bordes de las celdas */
+    }
+    
+    /* Estilo para los encabezados en color gris */
+    #tablaAdicional th {
+      background-color: #f8f9fa;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 2px solid #ddd;
+    }
+    
+    /* Estilo para las celdas con números de colores diferentes */
+    #tablaAdicional td {
+      padding: 10px;
+      text-align: center;
+      color: #666;
+    }
+    
+    /* Estilo para las celdas de la primera fila (encabezados) */
+    #tablaAdicional tr:first-child th {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    
+    /* Estilo para las celdas de la última fila */
+    #tablaAdicional tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* Estilo para las celdas de las esquinas */
+    #tablaAdicional tr:first-child td:first-child,
+    #tablaAdicional tr:last-child td:first-child {
+      border-bottom-left-radius: 10px;
+    }
+    
+    #tablaAdicional tr:first-child td:last-child,
+    #tablaAdicional tr:last-child td:last-child {
+      border-bottom-right-radius: 10px;
+    }
+    
+    /* Colores personalizados para las celdas */
+    #tablaAdicional tr:nth-child(2) td:nth-child(1) {
+      background-color: #f8d5b5;
+    }
+    
+    #tablaAdicional tr:nth-child(2) td:nth-child(2) {
+      background-color: #c2dfb5;
+    }
+    
+    #tablaAdicional tr:nth-child(2) td:nth-child(3) {
+      background-color: #57bc8b;
+    }
+    
+    </style>
+</head>
+<body>
+
+<div class="contenedorTabla">
+  <table id="tablaAdicional">
+    <tbody>
+      <tr>
+        <th>12 meses</th>
+        <th>24 meses</th>
+        <th>36 meses</th>
+      </tr>
+      <tr>
+        <td>$&nbsp;14.840.537</td>
+        <td>$&nbsp;28.965.127</td>
+        <td>$&nbsp;44.502.176</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

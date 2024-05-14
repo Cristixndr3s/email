@@ -1,0 +1,274 @@
+<!-- fillet Deporte-->
+
+<div class="fillet">
+    <span class="pc">
+     Abrimos el ciclo 4 de nuestras escuelas deportivas. <a href="https://www.diversioncolsubsidio.com/deportes-escuelas#/vitrina?clasificacion=187">Inscríbete ahora.</a>
+    </span>
+    <span class="mv">
+    Ciclo 4 de nuestras escuelas deportivas. <a href="https://www.diversioncolsubsidio.com/deportes-escuelas#/vitrina?clasificacion=187">Inscríbete ahora.</a>
+    </span>
+  </div>
+  <style>
+    .fila-alerta {background: url(https://www.diversioncolsubsidio.com/uploads/item/e2/images/textura-top-bar.png) no-repeat left top, linear-gradient(90deg, rgb(128, 172, 254) 0%, rgb(1, 41, 93) 100%);}
+    .form-interciclos {display: none !important;}
+  </style>
+  
+  <!-- fillet Experiencias recreativas
+  <div class="fillet">
+  <span class="pc">
+      Descubre nuevas experiencias en nuestros cursos, talleres, caminatas y actividades. <a href="https://www.diversioncolsubsidio.com/experiencias-recreativas/">¡Inscríbete!</a>
+  </span>
+  <span class="mv">
+      Descubre nuevas experiencias recreativas. <a href="https://www.diversioncolsubsidio.com/experiencias-recreativas/">¡Inscríbete!</a>
+  </span>
+  </div>
+  <style>
+  .fila-alerta {background: url(https://www.diversioncolsubsidio.com/uploads/item/e2/images/textura-top-bar.png) no-repeat left top, linear-gradient(90deg, rgba(183,128,254,1) 0%, rgba(14,1,93,1) 100%);}
+  </style>--> 
+  
+  <!-- fillet Mantenimiento 
+  <div class="fillet">
+  <span class="pc">
+  Nuestro sistema se encuentra en mantenimiento, esperamos restablecer nuestros servicios pronto.
+  </span>
+  <span class="mv">
+  Nuestro sistema se encuentra en mantenimiento.
+  </span>
+  </div>
+  <style>
+   .fila-alerta {background: rgb(223 44 103) !important}
+  </style>-->
+  <div class="sticky-container" id="">
+  <div class="button-container"><a class="parrafoEncuesta" href="https://colsubsidio.az1.qualtrics.com/jfe/form/SV_bBIiOOrHiLSHJlQ" target="_blank"><p class="textoEncuesta">Déjanos tu opinión</p></a></div>
+  </div>
+  
+  <script type="text/javascript">
+  $(document).ready(function() {	
+  function checkEnvio() {
+      if ($('.submitted-message').length > 0) {
+          console.log($('.submitted-message').length);
+          $('.descripcion .panel-heading h3').attr('style','padding-top: 100px');
+      }
+  }
+  setInterval(checkEnvio, 1000);
+  });
+  </script>
+  <style>
+  /* Encuesta Qualtrix */
+  .sticky-container {
+  background-color : rgb(0 0 91);
+  visibility : visible;
+  padding-right : 0px;
+  position : fixed;
+  top : 50%;
+  right : 0px;
+  width : 40px;
+  height : 180px;
+  z-index : 9999;
+  text-align : center;
+  transition-duration : 0.5s;
+  transition-timing-function : ease;
+  transition-delay : 0s;
+  transition-property : all;
+  border : 1px solid rgb(255, 255, 255);
+  border-radius : 3px 0px 0px 3px;
+  box-shadow : rgba(0, 0, 0, 0.25) 0px 4px 4px 0px;
+  }
+  .parrafoEncuesta {
+  color : rgb(1, 86, 135);
+  font-family : "Source Sans Pro", sans-serif;
+  font-size : 17px;
+  font-weight : bold;
+  height : 180px;
+  top : auto;
+  padding : 0px !important;
+  text-decoration: none !important;
+  }
+  .imgEncuesta {
+  max-height : 100%;
+  }
+  .sticky-container:hover {
+  width: 50px;
+  background-color: rgb(251 251 251);
+  border-color: rgb(0 0 91);
+  }
+  .textoEncuesta {
+  transform : rotate(270deg);
+  text-wrap : nowrap;
+  }
+  .sticky-container:hover p.textoEncuesta {color: rgb(0 0 91);}
+  p.textoEncuesta {
+  margin: 14px auto !important;
+  font-weight: 400;
+  position : relative;
+  top : 60px;
+  left : -50px;
+  color : white;
+  height : 30px;
+  width : 141px;
+  }
+  
+  /* fechas en eventos de planes */
+  .card-abajo p span{
+  display: block;
+  position: absolute;
+  top: 32%;
+  right: 25px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 10px 2px 34px;
+  background: url(https://www.colsubsidio.com/hubfs/Sitio%20.COM/new-content/iconos/calendar.svg) no-repeat 6px 3px #d2f1ee;
+  background-size: 22px;
+  border-radius: 3px;
+  }
+  .producto #dato-destacado{
+  padding: 6px 10px 6px 34px;
+  display: inline-block;
+  margin: 0 6px 0 0;
+  position: relative;
+  width: auto;
+  font-size: 12px;
+  font-weight: 700;
+  background: url(https://www.colsubsidio.com/hubfs/Sitio%20.COM/new-content/iconos/calendar.svg) no-repeat 6px 3px #d2f1ee;
+  background-size: 22px;
+  border-radius: 3px;
+  }
+  .card-abajo p span.no-disponible {
+  background: initial;
+  top: initial;
+  right: initial;
+  }
+  .card-abajo p span.gratis {
+  bottom: initial;
+  background: white;
+  top: 26px;
+  height: 30px;
+  padding: 2px 11px;
+  font-size: 16px;
+  }
+  /* Estilos del fillet */
+    .fila-alerta {
+        display: block;
+        position: fixed;
+        top: 0px;
+        background-size: cover;
+        font-size: 18px;
+        height: 36px;
+        padding: 5px 0;
+        z-index: 13;
+        text-align: center;
+        color: white;
+        width: 100%;
+        margin: 0px;
+    }
+    .fila-alerta .panel-body {margin-top: 0 !important;}
+    .fila-alerta span {color: white !important;}
+    .fila-alerta .fillet a {
+        color: white;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+    .fila-alerta .panel-heading,
+    .fila-alerta .fillet span.mv, .fila-alerta .fillet a.mv {display: none;}
+    .fila-header, .fila-usuario, .fila-buscador-catalogo, .navbar.navbar-inverse {top: 36px !important;}
+    .navbar-collapse.collapse.in::before, .navbar-collapse.collapsing::before {top: 122px !important;}
+    .producto .modulo-breadcrumb.container {margin-top: 6px;}
+    .home div#contenido, div#contenido, .producto div#contenido .cmp-fila.fila-flujo, .cmp-fila.fila-producto {margin-top: 102px !important;}
+  
+    @media (min-width: 250px) and (max-width: 768px) {
+        .fila-alerta .fillet span.pc, .fila-alerta .fillet a.pc {display: none;}
+        .fila-alerta .fillet span.mv, .fila-alerta .fillet a.mv {
+              font-size: 14px;
+              display: initial;
+              padding: 2px 0;
+        }
+        .producto .modulo-breadcrumb.container {display: none}
+        .home div#contenido, div#contenido, .producto div#contenido .cmp-fila.fila-flujo, .cmp-fila.fila-producto {margin-top: 0 !important;}
+    }
+  
+  /* Estilos generales */
+  
+  /* estilos del mensaje de alerta */
+  
+    .bg_alert_alerta {
+      background-color: #fff4e5;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-content: center;
+      padding: 20px;
+      border-radius: 6px;
+      margin-bottom: 30px;
+    }
+    .bg_alert_alerta p {margin: 0 10px;}
+  
+  /* Estilos del formulario de interciclos */
+  
+  /* Habilitar formulario */
+  
+    .cmp-fila.fila-producto, .cmp-descripcion_producto {z-index: 2 !important;}
+    .cmp-fila.fila-flujo, .cmp-buscador_servicios_y_venta {z-index: 1 !important;}
+    .descripcion .panel-body {position: initial;}
+    .form-interciclos {
+      background: white;
+      display: none !important;
+      position: absolute;
+      padding: 0 30px 0px;
+      right: -103%;
+      top: -200px;
+      width: 100%;
+    }
+  
+    @media (min-width: 250px) and (max-width: 990px) {
+      .form-interciclos {
+        position: relative;
+        right: initial;
+        top: initial;
+      }
+      .descripcion {
+        padding: 0 !important; 
+      }
+      .descripcion .panel-heading h3{
+          padding-top: 1220px;
+      }
+    }
+  
+    @media (min-width: 250px) and (max-width: 767px) {
+      .form-interciclos {
+        position: absolute;
+        top: 0px;
+        width: 100%;
+      }
+      p.textoEncuesta{
+        font-size: 14px !important;
+        top: 50px;
+        width: 135px;
+      }
+      .sticky-container{
+        width: 35px;
+        height: 160px;
+      }
+    }
+  
+    /* Boton de WhatsApp */
+  .float{ 
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 40px;
+      right: 40px;
+      background-color: #64b161;
+      color: #FFF;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 30px;
+      padding: 4px 10px 4px 13px;
+      box-shadow: 2px 2px 3px #999;
+      z-index: 100;
+  }
+  
+  
+
+  
+  </style> 

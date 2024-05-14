@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Rentabilidad</title>
+<style>
+    /* Estilos del formulario y contenedor de resultados */
+    .container {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #resultados {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Otros estilos */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    h2 {
+        margin-top: 30px;
+    }
+    /* Estilo para el div activado */
+    #funelBajoMinimo {
+    display: none;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Calculadora de Rentabilidad</h1>
+    <input type="text" id="saldoPromedio" oninput="formatInputValue('saldoPromedio')" placeholder="Ingrese el saldo promedio">
+    <input style="display: none;" type="text" id="abonos" oninput="formatInputValue('abonos')" placeholder="Ingrese los abonos">
+    <input type="text" id="plazo" placeholder="Ingrese el plazo">
+    <button type="button" id="calcularBtn" onclick="calcularRentabilidad()">Calcular</button>
+
+    <div id="funelBajoMinimo">
+        
+    </div>
+
+    <div id="resultados"></div>
+</div>
+
+
+
+<script>
+    var primerCalculo = true;
+    function calcularRentabilidad() {
+        var saldoPromedio = parseFloat(document.getElementById("saldoPromedio").value.replace(/\./g, '').replace(/,/g, '.')) || 0;
+        var plazo = parseInt(document.getElementById("plazo").value) || 0;
+        var abonos = parseFloat(document.getElementById("abonos").value.replace(/\./g, '').replace(/,/g, '.')) || 0;
+    
+        var tasaEA1 = Math.pow(1 + 0.01, 1 / 12) - 1;
+        var tasaEA10 = Math.pow(1 + 0.10, 1 / 12) - 1;
+    
+        var resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = ""; // Limpiar resultados anteriores
+    
+        var tableHTML = "<h2>Resultados</h2><table>" +
+                        "<tr><th>Mes</th><th>Saldo Inicial</th><th>Abonos</th><th>Saldo antes</th><th>Intereses</th><th>Saldo Final</th></tr>";
+        
+        var saldoInicial = saldoPromedio;
+        for (var mes = 1; mes <= plazo; mes++) {
+            var saldoAntesIntereses = saldoInicial + abonos;
+            var intereses = saldoAntesIntereses < 2000000 ? saldoAntesIntereses * tasaEA1 : saldoAntesIntereses * tasaEA10;
+            var saldoFinal = saldoAntesIntereses + intereses;
+            
+            // Formatear valores para mostrarlos en pesos colombianos con puntos decimales
+            saldoInicialFormatted = formatCurrency(saldoInicial);
+            abonosFormatted = formatCurrency(abonos);
+            saldoAntesInteresesFormatted = formatCurrency(saldoAntesIntereses);
+            interesesFormatted = formatCurrency(intereses);
+            saldoFinalFormatted = formatCurrency(saldoFinal);
+    
+            tableHTML += "<tr><td>" + mes + "</td><td>" + saldoInicialFormatted + "</td><td>" + abonosFormatted + "</td><td>" + saldoAntesInteresesFormatted + "</td><td>" + interesesFormatted + "</td><td>" + saldoFinalFormatted + "</td></tr>";
+            
+            // Actualizar saldo inicial para el siguiente mes
+            saldoInicial = saldoFinal;
+        }
+        tableHTML += "</table>";
+        resultadosDiv.innerHTML = tableHTML;
+
+        // Mostrar mensaje si el saldo final en el último mes es menor a 2000000
+        var funelBajoMinimo = document.getElementById("funelBajoMinimo");
+        
+        if (saldoFinal < 2000000) {
+            mensajeDiv.innerText = "Tu saldo final se rentó al 1% debido a que no superas los 2 M. Tu saldo final es de " + formatCurrency(saldoFinal);
+            funelBajoMinimo.style.display = "block";
+        } else {
+            funelBajoMinimo.style.display = "none";
+        }
+            // Cambiar el texto del botón a "Recalcular" después del primer cálculo
+    if (primerCalculo) {
+        document.getElementById("calcularBtn").innerText = "Recalcular";
+        primerCalculo = false;
+    }
+    }
+    
+    function formatCurrency(amount) {
+        return amount.toLocaleString('es-CO', {style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0});
+    }
+    
+    // Función para dar formato mientras se escribe
+    function formatInputValue(elementId) {
+        var element = document.getElementById(elementId);
+        var value = element.value.replace(/\./g, '').replace(/,/g, '.');
+        element.value = parseFloat(value).toLocaleString('es-CO');
+    }
+    </script>
+    
+    
+</body>
+</html>

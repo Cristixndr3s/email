@@ -1,54 +1,15 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador de Rentabilidad</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
 <style>
-    /* Estilos del formulario y botón de calcular */
-    .container form {
-        display: block;
-    }
-
-    /* Estilos de la tabla de resultados */
-    #resultadosTable {
-        display: none; /* Inicialmente oculta la tabla */
-        margin-top: 20px;
-    }
-
-    /* Estilos para el botón "Más información" */
-    #masInformacionBtn {
-        display: none; /* Inicialmente oculta el botón */
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-
-    /* Estilos de la tabla adicional */
-    #tablaAdicional {
-        display: none; /* Inicialmente oculta la tabla adicional */
-        margin-top: 20px;
-        max-width: 90%;
-    }
-
-    /* Otros estilos */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .container {
-        max-width: 90%;
-        margin: 50px auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    label {
+    /*estilos formulario */
+   label {
         display: block;
         margin-bottom: 5px;
     }
@@ -74,70 +35,265 @@
     h2 {
         margin-top: 30px;
     }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    th, td {
-        border: 1px solid #ccc;
-        padding: 8px;
-        text-align: center;
-    }
-</style>
-</head>
-<body>
-<div class="container">
-    <h1>Simulador de Rentabilidad</h1>
-    <form id="calcForm">
-        <label for="saldoInicial">Saldo Inicial:</label>
-        <input type="text" id="saldoInicial" placeholder="Ingrese el saldo inicial">
-        <label for="ahorroMensual">Ahorro Mensual:</label>
-        <input type="text" id="ahorroMensual" placeholder="Ingrese el ahorro mensual">
-        <label for="meses">Meses:</label>
-        <input type="number" id="meses" placeholder="Ingrese la cantidad de meses">
-        <button type="button" id="calcularBtn" onclick="calcularRentabilidad()">Calcular</button>
-    </form>
-    <div id="textoAdicional"></div>
+  
+.container-calculadora {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 50px 20px;
+  border-radius: 10px; /* Ajusta el valor según el radio que desees */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent; /* Asegura que haya espacio para el borde */
+  border-image: linear-gradient(to right, #f75934 50%, #8059d6 50%);
+  border-image-slice: 1; /* Ajusta cómo se corta el gradiente */
+}
 
-    <table id="tablaAdicional">
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-        </tr>
-    </table>
-    <div id="masInformacionBtn" onclick="mostrarResultados()">Más información</div>
-    <h2 id="resultadosHeading" style="display: none;">Resultados</h2>
-    <table id="resultadosTable">
-        <tr>
-            <th>Periodo</th>
-            <th>Saldo Inicial</th>
-            <th>Abonos</th>
-            <th>Saldo antes de Intereses</th>
-            <th>Intereses</th>
-            <th>Retención</th>
-            <th>Valor Retención</th>
-            <th>Intereses Finales</th>
-            <th>Saldo Final</th>
-        </tr>
-    </table>
-</div>
-<script>
-var masInformacionPresionado = false;
+.container-calculadora form {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-calculadora label {
+  margin-bottom: 5px;
+  display:none;
+}
+
+.container-calculadora input[type="text"],
+.container-calculadora input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-bottom: 2px solid #f75934;
+  margin-bottom: 15px;
+  background-color: transparent;
+  border-radius: 0px;
+}
+
+.container-calculadora button {
+  padding: 10px 20px;
+  background-color: #f75934;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 30px 0px;
+}
+
+.container-calculadora button:hover {
+  background-color: #000;
+}
+
+/* Cambiar color del borde inferior al enfocar */
+.container-calculadora input[type="text"]:focus,
+.container-calculadora input[type="number"]:focus {
+  border-bottom-color: #000;
+}
+  /*--------Fin estilos Formulario--------------*/
+
+      /* Estilos para el botón "Más información" */
+      #masInformacionBtn {
+        display: none; /* Inicialmente oculta el botón */
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #000000;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      	width:50%
+    }
+
+/* fin Estilos para el botón "Más información" */
+  /*-----inicio tabla adicional*/
+
+  #tablaAdicionalContainer {
+    width: 100%; /* Ajusta el ancho del contenedor al 100% del contenedor padre */
+    overflow-x: auto; /* Permite el desplazamiento horizontal si el contenido es demasiado ancho */
+    margin-top: 20px; /* Margen superior para separar del contenido anterior */
+}
+
+#tablaAdicional {
+    width: 100%; /* Ajusta el ancho de la tabla al 100% del contenedor */
+    /* Otros estilos de la tabla adicional */
+}
+      /* Estilo para el contenedor de la tabla */
+    
+      .contenedorTabla {
+      width: 80%;
+      margin: 50px auto;
+      overflow-x: auto; /* Permite el desplazamiento horizontal si el contenido es demasiado ancho */
+    }
+    
+    /* Estilo para la tabla */
+    #tablaAdicional {
+      display:none;
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden; /* Para ocultar los bordes de las celdas */
+    }
+    
+    /* Estilo para los encabezados en color gris */
+    #tablaAdicional th {
+      background-color: #f8f9fa;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 2px solid #ddd;
+    }
+    
+    /* Estilo para las celdas con números de colores diferentes */
+    #tablaAdicional td {
+      padding: 10px;
+      text-align: center;
+      color: #666;
+    }
+    
+    /* Estilo para las celdas de la primera fila (encabezados) */
+    #tablaAdicional tr:first-child th {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    
+    /* Estilo para las celdas de la última fila */
+    #tablaAdicional tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* Estilo para las celdas de las esquinas */
+    #tablaAdicional tr:first-child td:first-child,
+    #tablaAdicional tr:last-child td:first-child {
+      border-bottom-left-radius: 10px;
+    }
+    
+    #tablaAdicional tr:first-child td:last-child,
+    #tablaAdicional tr:last-child td:last-child {
+      border-bottom-right-radius: 10px;
+    }
+    
+    /* Colores personalizados para las celdas */
+    #tablaAdicional tr:nth-child(2) td:nth-child(1) {
+      background-color: #f8d5b5;
+    }
+    
+    #tablaAdicional tr:nth-child(2) td:nth-child(2) {
+      background-color: #c2dfb5;
+    }
+    
+    #tablaAdicional tr:nth-child(2) td:nth-child(3) {
+      background-color: #57bc8b;
+    }
+    
+  /*Fin estilos tabla adicional*/
+  
+  /*----inicio tabla resultados------*/
+  .contenedorTablaHorizontal {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#resultadosTable {
+    width: 100%;
+    /* Resto de estilos de la tabla */
+}
+
+#resultadosTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+  display:none;
+}
+
+#resultadosTable th {
+    background-color: #f8f9fa;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+}
+
+#resultadosTable td {
+    padding: 10px;
+    text-align: center;
+    color: #666;
+}
+
+#resultadosTable tr:first-child th {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#resultadosTable tr:last-child td {
+    border-bottom: none;
+}
+
+#resultadosTable tr:first-child td:first-child,
+#resultadosTable tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+#resultadosTable tr:first-child td:last-child,
+#resultadosTable tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+</style>
+
+    
+    <div class="container-calculadora">
+        <form id="calcForm">
+          <label for="saldoInicial">Saldo Inicial:</label>
+          <input type="text" id="saldoInicial" placeholder="Ingrese el saldo inicial" oninput="formatNumber(this)">
+          <label for="ahorroMensual">Ahorro Mensual:</label>
+          <input type="text" id="ahorroMensual" placeholder="Ingrese el ahorro mensual" oninput="formatNumber(this)">
+          <label for="meses">Meses:</label>
+          <input type="number" id="meses" placeholder="Ingrese la cantidad de meses">
+          <button type="button" id="calcularBtn" onclick="calcularRentabilidad()">Calcular</button>
+          </form>
+      </div>
+
+      <div id="textoAdicional"></div>
+      <div id="tablaAdicionalContainer" class="contenedorTabla">   
+        <table id="tablaAdicional">
+           </table>    
+         </div>
+         <div id="masInformacionBtn" onclick="mostrarResultados()">Más información</div>
+
+
+         <h2 id="resultadosHeading" style="display: none;">Resultados</h2>
+     <div class="contenedorTablaHorizontal">
+         <table id="resultadosTable">
+
+         </table>
+         
+       </div>
+       
+
+
+       <script>
+       var masInformacionPresionado = false;
 var saldosFinales = []; // Arreglo para almacenar los saldos finales de cada período
+
+function formatNumber(input) {
+    // Eliminar todas las comas del valor ingresado y formatearlo con comas para indicar los miles
+    var value = input.value.replace(/\./g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    input.value = value;
+}
 
 function calcularRentabilidad() {
     // Reiniciar el arreglo de saldosFinales
     saldosFinales = [];
 
-    var saldoInicial = parseFloat(document.getElementById("saldoInicial").value);
-    var ahorroMensual = parseFloat(document.getElementById("ahorroMensual").value);
-    var meses = parseInt(document.getElementById("meses").value)*3;
+    // Obtener los valores de los campos de entrada y eliminar los puntos para los cálculos
+    var saldoInicial = parseFloat(document.getElementById("saldoInicial").value.replace(/\./g, ''));
+    var ahorroMensual = parseFloat(document.getElementById("ahorroMensual").value.replace(/\./g, ''));
+    var meses = parseInt(document.getElementById("meses").value) * 3;
 
     var tasaEA = 0.10;
     var tasaMensual = Math.pow(1 + tasaEA, 1 / 12) - 1;
@@ -154,9 +310,6 @@ function calcularRentabilidad() {
         "<th>Abonos</th>" +
         "<th>Saldo antes de Intereses</th>" +
         "<th>Intereses</th>" +
-      //  "<th>Retención</th>" +
-       // "<th>Valor Retención</th>" +
-        "<th>Intereses Finales</th>" +
         "<th>Saldo Final</th>" +
         "</tr>";
     resultadosTable.innerHTML = encabezados;
@@ -165,11 +318,7 @@ function calcularRentabilidad() {
         var saldoAntesIntereses = saldoActual + ahorroMensual;
         var intereses = saldoAntesIntereses * tasaMensual;
 
-        var retencionAplicada = intereses > montoRetencion ? 1 : 0;
-        var valorRetencion = retencionAplicada * intereses * retencion;
-        var interesesFinales = intereses - valorRetencion;
-
-        var saldoFinal = saldoAntesIntereses + interesesFinales;
+        var saldoFinal = saldoAntesIntereses + intereses;
 
         // Almacenar el saldo final en el arreglo
         saldosFinales.push(saldoFinal);
@@ -180,9 +329,6 @@ function calcularRentabilidad() {
             "<td>" + formatCurrency(ahorroMensual) + "</td>" +
             "<td>" + formatCurrency(saldoAntesIntereses) + "</td>" +
             "<td>" + formatCurrency(intereses) + "</td>" +
-            //"<td>" + retencionAplicada + "</td>" +
-            //"<td>" + formatCurrency(valorRetencion) + "</td>" +
-            "<td>" + formatCurrency(interesesFinales) + "</td>" +
             "<td>" + formatCurrency(saldoFinal) + "</td>";
 
         saldoActual = saldoFinal;
@@ -192,21 +338,44 @@ function calcularRentabilidad() {
     var primerSegmento = Math.ceil(meses / 3);
     var segundoSegmento = 2 * primerSegmento;
     var tercerSegmento = meses;
-    document.getElementById("tablaAdicional").innerHTML =
-        "<tr>" +
-        "<td>" + primerSegmento + " meses</td>" +
-        "<td>" + segundoSegmento + " meses</td>" +
-        "<td>" + tercerSegmento + " meses</td>" +
-        "</tr>" +
-        "<tr>" +
-        "<td>" + formatCurrency(saldosFinales[primerSegmento - 1]) + "</td>" +
-        "<td>" + formatCurrency(saldosFinales[segundoSegmento - 1]) + "</td>" +
-        "<td>" + formatCurrency(saldosFinales[tercerSegmento - 1]) + "</td>" +
-        "</tr>";
 
-// Agregar el texto debajo de la tabla adicional
-var textoAdicional = "<p>¡Hola, crack! ¿Sabías que en solo " + primerSegmento + " meses podrías ahorrar " + formatCurrency(saldosFinales[primerSegmento - 1]) + "? ¡Increíble, ¿no?! Pero espera, ¡hay más! Si decides ahorrar durante " + tercerSegmento + " meses, ¡podrías acumular hasta " + formatCurrency(saldosFinales[tercerSegmento - 1]) + "! ¿Te imaginas todas las posibilidades que tendrías con ese dinero? Abre tu RappiCuenta ahora y comienza a construir tu futuro financiero. ¡No esperes más para alcanzar tus metas!</p>";
-document.getElementById("textoAdicional").innerHTML = textoAdicional;
+    // Crear filas y celdas dinámicamente para la tabla adicional
+    var tablaAdicional = document.getElementById("tablaAdicional");
+    tablaAdicional.innerHTML = ""; // Limpiar contenido anterior
+    var fila1 = document.createElement("tr");
+    var fila2 = document.createElement("tr");
+
+    var celda1 = document.createElement("td");
+    celda1.textContent = primerSegmento + " meses";
+    fila1.appendChild(celda1);
+
+    var celda2 = document.createElement("td");
+    celda2.textContent = segundoSegmento + " meses";
+    fila1.appendChild(celda2);
+
+    var celda3 = document.createElement("td");
+    celda3.textContent = tercerSegmento + " meses";
+    fila1.appendChild(celda3);
+
+    var celda4 = document.createElement("td");
+    celda4.textContent = formatCurrency(saldosFinales[primerSegmento - 1]);
+    fila2.appendChild(celda4);
+
+    var celda5 = document.createElement("td");
+    celda5.textContent = formatCurrency(saldosFinales[segundoSegmento - 1]);
+    fila2.appendChild(celda5);
+
+    var celda6 = document.createElement("td");
+    celda6.textContent = formatCurrency(saldosFinales[tercerSegmento - 1]);
+    fila2.appendChild(celda6);
+
+    // Agregar filas a la tabla adicional
+    tablaAdicional.appendChild(fila1);
+    tablaAdicional.appendChild(fila2);
+
+    // Agregar el texto debajo de la tabla adicional
+    var textoAdicional = "<p><b>¡Hola, crack!</b> ¿Sabías que en solo " + primerSegmento + " meses podrías ahorrar <b> " + formatCurrency(saldosFinales[primerSegmento - 1]) + "</b> ¡Increíble, ¿no?! Pero espera, ¡hay más! Si decides ahorrar durante " + tercerSegmento + " meses, ¡podrías acumular hasta <b> " + formatCurrency(saldosFinales[tercerSegmento - 1]) + "!</b> ¿Te imaginas todas las posibilidades que tendrías con ese dinero? Abre tu RappiCuenta ahora y comienza a construir tu futuro financiero. ¡No esperes más para alcanzar tus metas!</p>";
+    document.getElementById("textoAdicional").innerHTML = textoAdicional;
 
     // Cambiar el texto del botón "Calcular" a "Recalcular"
     document.getElementById("calcularBtn").innerText = "Recalcular";
@@ -230,6 +399,7 @@ function mostrarResultados() {
 function formatCurrency(amount) {
     return amount.toLocaleString('es-CO', {style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0});
 }
-</script>
+
+        </script>
 </body>
 </html>

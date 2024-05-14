@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Call to Action</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<style>
+    .popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.popup-content {
+  text-align: center;
+}
+
+.close {
+  color: white;
+  float: right;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: red;
+}
+
+</style>
+
+  <a id="ctaButton" href="#" class="cta">¡Haz clic aquí!</a>
+  <a id="ctaButton" href="#" class="cta">¡Haz clic aquí!</a>
+  
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span class="close">&times;</span>
+      <img src="./WEBCuentaBovedas_qr_code.png" width="40%" alt="Popup Image">
+    </div>
+  </div>
+
+  <script>
+
+document.addEventListener("DOMContentLoaded", function() {
+  var ctaButtons = document.querySelectorAll(".cta");
+  var popup = document.getElementById("popup");
+  var close = document.querySelector(".close");
+
+  // Función para abrir el popup en dispositivos de escritorio
+  function openPopup(event) {
+    event.preventDefault();
+    if (window.innerWidth > 768) { // Si es un dispositivo de escritorio
+      popup.style.display = "block";
+    } else { // Si es un dispositivo móvil
+      window.location.href = "https://rappi.onelink.me/2373836517/WEBCuentaBovedas";
+    }
+  }
+
+  // Agregar el evento de clic a todos los botones CTA
+  ctaButtons.forEach(function(button) {
+    button.addEventListener("click", openPopup);
+  });
+
+  // Cerrar el popup
+  close.addEventListener("click", function() {
+    popup.style.display = "none";
+  });
+
+  // Cerrar el popup haciendo clic fuera de él
+  window.addEventListener("click", function(event) {
+    if (event.target === popup) {
+      popup.style.display = "none";
+    }
+  });
+});
+
+  </script>
+</body>
+</html>

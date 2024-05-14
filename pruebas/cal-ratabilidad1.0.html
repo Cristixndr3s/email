@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .container-calculadora {
+          max-width: 600px;
+          margin: 50px auto;
+          padding: 20px;
+          background-color: #f9f9f9;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1, h2 {
+          text-align: center;
+        }
+        
+        form {
+          margin-bottom: 20px;
+        }
+        
+        label {
+          display: block;
+          margin-bottom: 5px;
+        }
+        
+        input[type="number"], select {
+          width: 100%;
+          padding: 8px;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+        }
+        
+        button {
+          width: 100%;
+          padding: 10px;
+          background-color: #ed5136;
+          color: #fff;
+          border: none;
+          border-radius: 20px;
+          cursor: pointer;
+        }
+        
+        button:hover {
+          background-color: #000;
+        }
+        
+        .hidden {
+          display: none;
+        }
+        
+        #results {
+          margin-top: 20px;
+        }
+        
+        .results-title {
+          text-align: center;
+          font-size: 24px;
+          margin-bottom: 20px;
+        }
+        
+        .result-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: #f0f0f0;
+        }
+        
+        .icon {
+          font-size: 20px;
+          margin-right: 10px;
+        }
+        
+        .result-label {
+          font-weight: bold;
+          flex-basis: 200px;
+        }
+        
+        .result-value {
+          flex-grow: 1;
+          text-align: end;
+          font-weight: bold;
+        }
+        .icon {
+          width: 35px; /* Ajusta el tamaño según sea necesario */
+          height: 35px;
+          margin-right: 10px;
+        }
+        
+        </style>
+            <div class="container-calculadora">
+                <p style="font-size: 20px; text-align: center;">Calcula la Rentabilidad en tu <b>RappiCuenta</b></p>
+                <form id="calculator-form">
+                  <label for="product">Producto:</label>
+                  <select id="product" name="product">
+                    <option value="ahorros">Cuenta de ahorros</option>
+                    <option value="deposito">Depósito de bajo monto</option>
+                  </select>
+                  <label for="balance">Saldo Promedio (COP):</label>
+                  <input type="number" id="balance" name="balance" min="0">
+                  <label for="term">Plazo (meses):</label>
+                  <input type="number" id="term" name="term" min="1">
+                  <br><br>
+                  <p style="text-align: center;">Tu RappiCuenta no tiene cuota de manejo ni cobros ocultos!</p><br><br>
+                  <button type="button" id="calculate-btn">Simular</button>
+                </form>
+               
+               <!-- <div id="results" class="hidden">
+                  <h3 style="text-align: center;">Resultados simulacion:</h3>
+                  <p id="average-balance">Saldo Promedio: </p>
+                  <p id="profitability">Rentabilidad en %: </p>
+                  <p id="profitability-cop">Rentabilidad en COP: </p>
+                </div>
+         -->       
+                <div id="results" class="hidden">
+                    <p class="results-title">Resultados de la simulación:</p>
+                    <div class="result-item">
+                    <img src="/wp-content/uploads/2024/02/dolar.png" alt="Imagen de monedas" class="icon">
+                      <p class="result-label">Saldo Promedio:</p>
+                      <p class="result-value" id="average-balance"></p>
+                    </div>
+                    <div class="result-item">
+                    <img src="/wp-content/uploads/2024/02/descuento.png" alt="Imagen de monedas" class="icon">
+                      <p class="result-label">Rentabilidad e.a:</p>
+                      <p class="result-value" id="profitability"></p>
+                    </div>
+                    <div class="result-item">
+                    <img src="/wp-content/uploads/2024/02/salario.png" alt="Imagen de monedas" class="icon">
+                      <p class="result-label">Rentabilidad Mensual:</p>
+                      <p class="result-value" id="profitability-cop"></p>
+                    </div>
+                    <div class="result-item">
+                      <img src="/wp-content/uploads/2024/02/salario.png" alt="Imagen de monedas" class="icon">
+                        <p class="result-label">Rentabilidad Anual:</p>
+                        <p class="result-value" id="monthly-profitability-cop"></p>
+                      </div>
+                  </div>
+        
+                <div id="rappicuenta-msg" class="hidden">
+                  <p>
+                    "¡Superaste el límite de tu cuenta de bajo monto! ¿Por qué no dar el siguiente paso hacia un futuro financiero más sólido? ¡Abre una cuenta de ahorros hoy mismo y disfruta de mayores beneficios y oportunidades de crecimiento financiero!".</p>
+                  <button id="generate-rappicuenta-btn">Generar Rappicuenta</button>
+                </div>
+              </div>
+        
+        
+<script>
+    var saldosFinales = []; // Arreglo para almacenar los saldos finales de cada período
+
+function calcularRentabilidad() {
+    // Reiniciar el arreglo de saldosFinales
+    saldosFinales = [];
+
+    // Obtener los valores de los campos de entrada y eliminar los puntos para los cálculos
+    var saldoInicial = parseFloat(document.getElementById("balance").value.replace(/\./g, ''));
+    var meses = parseInt(document.getElementById("term").value);
+    var tasaEA = 0.10;
+
+    var saldoActual = saldoInicial;
+    var resultadosTable = document.getElementById("results");
+
+    resultadosTable.innerHTML = ""; // Limpiar contenido anterior
+    // Agregamos los encabezados de la tabla antes de los resultados
+    var encabezados = "<div class='results-title'>Resultados de la simulación:</div>";
+    resultadosTable.innerHTML = encabezados;
+
+    for (var periodo = 1; periodo <= meses; periodo++) {
+        var intereses = saldoActual * (tasaEA / 12); // Intereses mensuales
+        var saldoFinal = saldoActual + intereses; // Saldo final para el mes
+
+        // Almacenar el saldo final en el arreglo
+        saldosFinales.push(saldoFinal);
+
+        // Crear elementos para mostrar los resultados en la tabla
+        var resultItem = document.createElement("div");
+        resultItem.classList.add("result-item");
+
+        resultItem.innerHTML = `
+            <img src="/wp-content/uploads/2024/02/dolar.png" alt="Imagen de monedas" class="icon">
+            <p class="result-label">Saldo Promedio:</p>
+            <p class="result-value">${formatCurrency(saldoActual)}</p>
+            <p class="result-label">Rentabilidad e.a:</p>
+            <p class="result-value">${(tasaEA * 100).toFixed(2)}%</p>
+            <p class="result-label">Rentabilidad Mensual:</p>
+            <p class="result-value">${formatCurrency(intereses)}</p>
+            <p class="result-label">Rentabilidad Anual:</p>
+            <p class="result-value">${formatCurrency(saldoFinal)}</p>
+        `;
+        
+        resultadosTable.appendChild(resultItem);
+
+        saldoActual = saldoFinal;
+    }
+
+    // Cambiar el texto del botón "Simular" a "Recalcular"
+    document.getElementById("calculate-btn").innerText = "Recalcular";
+}
+
+function formatCurrency(amount) {
+    return amount.toLocaleString('es-CO', {style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0});
+}
+
+</script>
+    
+</body>
+</html>
