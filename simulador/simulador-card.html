@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Plan de Pagos</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +16,7 @@
             align-items: center;
             margin-top: 40px;
         }
-
+    
         .container {
             display: flex;
             max-width: 90%; /* Ajustar según sea necesario */
@@ -27,23 +28,23 @@
             margin-bottom: 20px;
             box-sizing: border-box;
         }
-
+    
         h1 {
             text-align: center;
             color: #333;
         }
-
+    
         .input-container {
             margin-right: 20px;
-            width: 30%
+            width: 30%;
         }
-
+    
         label {
             display: block;
             margin-bottom: 5px;
             color: #555;
         }
-
+    
         input[type="number"],
         input[type="date"],
         input[type="text"],
@@ -55,37 +56,44 @@
             border-radius: 5px;
             box-sizing: border-box;
         }
-
+    
         button {
             background-color: #000000;
             color: #fff;
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
+    
         button:hover {
             background-color: #fe2d2d;
         }
-
+    
+        .tabla-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+        }
+    
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-
+    
         th, td {
             border: 1px solid #dddddd;
             padding: 8px;
             text-align: left;
         }
-
+    
         th {
             background-color: #f2f2f2;
         }
-        .input-container-2{
+    
+        .input-container-2 {
             width: 70%;
         }
-
+    
         /* Estilos específicos para dispositivos móviles */
         @media only screen and (max-width: 600px) {
             .container {
@@ -95,15 +103,14 @@
             .input-container {
                 margin-right: 0;
                 margin-bottom: 20px;
-                width: 100%
+                width: 100%;
             }
             table {
                 font-size: 11px; /* Ajustar según sea necesario */
-                overflow-x: auto;
             }
-            .input-container-2{
-            width: 100%;
-        }
+            .input-container-2 {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -113,62 +120,68 @@
 <div class="container">
     <div class="input-container">
 <form id="formulario">
-    <label for="montoPrestamo">Monto del préstamo:</label>
-    <input type="number" id="montoPrestamo" name="montoPrestamo" required><br><br>
+    <label for="montoPrestamo">Valor de la compra:</label>
+    <input type="text" id="montoPrestamo" name="montoPrestamo" required><br><br>
 
-    <label for="tasaInteresAnual">Tasa de interés anual (%):</label>
-    <input type="number" id="tasaInteresAnual" name="tasaInteresAnual" required><br><br>
+    <!--<label for="tasaInteresAnual">Tasa de interés anual (%):</label>
+    <input type="number" id="tasaInteresAnual" name="tasaInteresAnual" required><br><br>-->
 
-    <label for="plazoMeses">Plazo en meses:</label>
+    <label for="plazoMeses">¿A cuántas cuotas?</label>
     <input type="number" id="plazoMeses" name="plazoMeses" required><br><br>
 
     <label for="tipoAmortizacion">Tipo de amortización:</label>
     <select id="tipoAmortizacion" name="tipoAmortizacion" required>
-        <option value="francesa">Francesa</option>
-        <option value="alemana">Alemana</option>
-        <option value="alemana_sin_intereses_primera_cuota">Alemana sin intereses primera cuota</option>
+        <option value="francesa">Avance</option>
+        <option value="alemana">cuota 0</option>
+        <option value="alemana_sin_intereses_primera_cuota">Acuerdo de pago</option>
     </select><br><br>
 
     <label for="fechaCompra">Fecha de compra:</label>
     <input type="date" id="fechaCompra" name="fechaCompra" required><br><br>
 
-    <label for="fechasCorteElegidas">Fechas de corte elegidas:</label>
+    <label for="fechasCorteElegidas">Día de corte del mes:</label>
     <select id="fechasCorteElegidas" name="fechasCorteElegidas" required>
-        <option value="A">Opción A</option>
-        <option value="B">Opción B</option>
-        <option value="C">Opción C</option>
-        <option value="D">Opción D</option>
+        <option value="A">Fecha pago día 10</option>
+        <option value="B">Fecha pago día 15</option>
+        <option value="C">Fecha pago día 20</option>
+        <option value="D">Fecha pago día 30</option>
     </select><br><br>
 
     <button type="submit">Calcular Plan de Pagos</button>
 </form>
 </div>
 
-<div id="tablaContainer"></div>
+<div class="input-container-2">
+    <div class="tabla-container" id="tablaContainer">
+        <!-- Aquí se generará dinámicamente el contenido del plan de pagos -->
+    </div>
+</div>
 
 </div>
 <script>
     // Variable global para almacenar la tabla
     var tablaPlanPagos = null;
 
+    var tasaInteresAnual = 2.3102;
+
    document.getElementById("formulario").addEventListener("submit", function(event) {
     event.preventDefault(); // Evitar que se envíe el formulario
 
     // Obtener los valores del formulario
     var montoPrestamo = parseFloat(document.getElementById("montoPrestamo").value);
-    var tasaInteresAnual = parseFloat(document.getElementById("tasaInteresAnual").value);
+   // var tasaInteresAnual = parseFloat(document.getElementById("tasaInteresAnual").value);
     var plazoMeses = parseInt(document.getElementById("plazoMeses").value);
     var tipoAmortizacion = document.getElementById("tipoAmortizacion").value;
     var fechaCompra = document.getElementById("fechaCompra").value;
     var fechasCorteElegidas = document.getElementById("fechasCorteElegidas").value;
 
         // Imprimir los valores en la consola
-    console.log("Monto del Préstamo:", montoPrestamo);
-    console.log("Tasa de Interés Anual:", tasaInteresAnual);
-    console.log("Plazo en Meses:", plazoMeses);
-    console.log("Tipo de Amortización:", tipoAmortizacion);
-    console.log("Fecha de Compra:", fechaCompra);
-    console.log("Fechas de Corte Elegidas:", fechasCorteElegidas);
+    //console.log("Monto del Préstamo:", montoPrestamo);
+    //console.log("Tasa de Interés Anual:", tasaInteresAnual);
+    //console.log("Plazo en Meses:", plazoMeses);
+    //console.log("Tipo de Amortización:", tipoAmortizacion);
+    //console.log("Fecha de Compra:", fechaCompra);
+    //console.log("Fechas de Corte Elegidas:", fechasCorteElegidas);
     
     // Llamar a la función calcularPlanPagos con los valores del formulario
     var planPagos = calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmortizacion, fechaCompra, fechasCorteElegidas);
@@ -176,6 +189,8 @@
     // Llamar a la función para generar la tabla con los datos
     actualizarTabla(planPagos);
 });
+
+
 // Suponiendo que tienes el array 'planPagos' con los datos que has mostrado en la consola
 
 function actualizarTabla(planPagos) {
@@ -4290,6 +4305,8 @@ function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmor
     return planPagos;
     
 }
+
+
 
 </script>
 
