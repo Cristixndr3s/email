@@ -213,13 +213,13 @@
     var fechaCompra = document.getElementById("fechaCompra").value;
     var fechasCorteElegidas = document.getElementById("fechasCorteElegidas").value;
 
-        // Imprimir los valores en la consola
-    //console.log("Monto del Préstamo:", montoPrestamo);
-    //console.log("Tasa de Interés Anual:", tasaInteresAnual);
-    //console.log("Plazo en Meses:", plazoMeses);
-    //console.log("Tipo de Amortización:", tipoAmortizacion);
-    //console.log("Fecha de Compra:", fechaCompra);
-    //console.log("Fechas de Corte Elegidas:", fechasCorteElegidas);
+    // Imprimir los valores en la consola
+    console.log("Monto del Préstamo:", montoPrestamo);
+    console.log("Tasa de Interés Anual:", tasaInteresAnual);
+    console.log("Plazo en Meses:", plazoMeses);
+    console.log("Tipo de Amortización:", tipoAmortizacion);
+    console.log("Fecha de Compra:", fechaCompra);
+    console.log("Fechas de Corte Elegidas:", fechasCorteElegidas);
     
     // Llamar a la función calcularPlanPagos con los valores del formulario
     var planPagos = calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmortizacion, fechaCompra, fechasCorteElegidas);
@@ -260,20 +260,27 @@ function actualizarTabla(planPagos) {
         var cuerpo = tablaPlanPagos.createTBody();
         planPagos.forEach(function(pago) {
             var fila = cuerpo.insertRow();
+            // fila.insertCell().textContent = pago.cuota;
+            // fila.insertCell().textContent = parseFloat(pago.cuotaCapital).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+            // fila.insertCell().textContent = parseFloat(pago.interesMensual).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+            // fila.insertCell().textContent = parseFloat(pago.saldoPendiente).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+            // fila.insertCell().textContent = parseFloat(pago.cuotaTotal).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+            // fila.insertCell().textContent = pago.fechaCorte;
             fila.insertCell().textContent = pago.cuota;
-            fila.insertCell().textContent = parseFloat(pago.cuotaCapital).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-            fila.insertCell().textContent = parseFloat(pago.interesMensual).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-            fila.insertCell().textContent = parseFloat(pago.saldoPendiente).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-            fila.insertCell().textContent = parseFloat(pago.cuotaTotal).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+            fila.insertCell().textContent = pago.cuotaCapital;
+            fila.insertCell().textContent = pago.interesMensual;
+            fila.insertCell().textContent = pago.saldoPendiente;
+            fila.insertCell().textContent = pago.cuotaTotal;
             fila.insertCell().textContent = pago.fechaCorte;
         });
     }
 
-function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmortizacion, fechaCompra, fechasCorteElegidas) {
+    function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmortizacion, fechaCompra, fechasCorteElegidas) {
     function encontrarFechaCorteMasCercana(fechaCompra, fechasCorte) {
         var fechaCompraObj = new Date(fechaCompra);
         var fechasCorteFuturas = fechasCorte.map(function(fechaCorte) {
-            return new Date(fechaCorte);
+            var [year, month, day] = fechaCorte.split('/').map(Number);
+            return new Date(year, month - 1, day); // Restamos 1 al mes porque en JavaScript los meses van de 0 a 11
         }).filter(function(fechaCorte) {
             return fechaCorte > fechaCompraObj;
         });
@@ -286,7 +293,7 @@ function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmor
             return null;
         }
     }
-    
+
     var tasaInteresMensual = tasaInteresAnual / 12 / 100;
     var cuotaMensual, cuotaCapital, saldoPendiente, interesMensual;
     var planPagos = [];
@@ -294,7 +301,7 @@ function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmor
     var fechaCompraObj = new Date(fechaCompra);
     var fechasCorte = [];
 
-    if (fechasCorteElegidas === "A") {
+     if (fechasCorteElegidas === "A") {
         fechasCorte = ["2021/05/28",
 "2021/06/29",
 "2021/07/29",
@@ -1345,12 +1352,12 @@ function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmor
 "2025/05/05",
 "2025/06/05",
 "2025/07/03",
-"2025/05/08",
+"2025/08/05",
 "2025/09/04",
 "2025/10/02",
 "2025/11/05",
 "2025/12/04",
-"2025/01/05",
+"2026/01/05",
 "2026/02/04",
 "2026/03/04",
 "2026/04/02",
@@ -2326,7 +2333,7 @@ function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmor
 "2023/10/10",
 "2023/11/09",
 "2023/12/06",
-"2024/02/10",
+"2024/01/10",
 "2024/02/08",
 "2024/03/07",
 "2024/04/10",
@@ -3346,7 +3353,7 @@ function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmor
 "2025/06/19",
 "2025/07/17",
 "2025/08/20",
-"2025/08/18",
+"2025/09/18",
 "2025/10/20",
 "2025/11/20",
 "2025/12/18",
@@ -4297,33 +4304,25 @@ function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmor
     } else {
         return "Opción de fechas de corte no válida";
     }
-    
+
+
     for (var i = 1; i <= plazoMeses; i++) {
         var fechaCorteObj = encontrarFechaCorteMasCercana(fechaCompraObj, fechasCorte);
         var diasPeriodo = (fechaCorteObj - fechaCompraObj) / (1000 * 60 * 60 * 24);
         
         if (tipoAmortizacion === "francesa") {
             cuotaMensual = montoPrestamo * tasaInteresMensual / (1 - Math.pow(1 + tasaInteresMensual, -plazoMeses));
-            interesMensual = saldoPendiente * tasaInteresMensual * diasPeriodo / 365;
+            interesMensual = saldoPendiente * tasaInteresMensual * diasPeriodo / 30;
             cuotaCapital = cuotaMensual - interesMensual;
-            saldoPendiente -= cuotaCapital;
         } else if (tipoAmortizacion === "alemana") {
             cuotaCapital = montoPrestamo / plazoMeses;
-            interesMensual = saldoPendiente * tasaInteresMensual * diasPeriodo / 365;
-            saldoPendiente -= cuotaCapital;
-        } else if (tipoAmortizacion === "alemana_sin_intereses_primera_cuota") {
-            if (i === 1) {
-                cuotaCapital = montoPrestamo / plazoMeses;
-                interesMensual = 0;
-            } else {
-                cuotaCapital = montoPrestamo / plazoMeses;
-                interesMensual = saldoPendiente * tasaInteresMensual * diasPeriodo / 365;
-            }
-            saldoPendiente -= cuotaCapital;
+            interesMensual = saldoPendiente * tasaInteresMensual * diasPeriodo / 30;
+            cuotaMensual = cuotaCapital + interesMensual;
         } else {
             return "Tipo de amortización no válido";
         }
 
+        saldoPendiente -= cuotaCapital;
         saldoPendiente = Math.max(saldoPendiente, 0); // Asegurar que el saldo pendiente no sea negativo
         
         var cuotaTotal = cuotaCapital + interesMensual;
@@ -4335,13 +4334,12 @@ function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmor
             cuotaTotal: cuotaTotal.toFixed(2),
             fechaCorte: fechaCorteObj.toISOString().slice(0,10).replace(/-/g, "/") // Formato de fecha YYYY/MM/DD
         });
-        
+
         fechaCompraObj = new Date(fechaCorteObj);
         fechaCorteObj.setMonth(fechaCorteObj.getMonth() + 1);
     }
-    
+
     return planPagos;
-    
 }
 
 
