@@ -126,13 +126,51 @@
     <!--<label for="tasaInteresAnual">Tasa de interés anual (%):</label>
     <input type="number" id="tasaInteresAnual" name="tasaInteresAnual" required><br><br>-->
 
-    <label for="plazoMeses">¿A cuántas cuotas?</label>
-    <input type="number" id="plazoMeses" name="plazoMeses" required><br><br>
+<label for="plazoMeses">¿A cuántas cuotas?</label>
+<select id="plazoMeses" name="plazoMeses" required>
+    <option value="1">1 cuota</option>
+    <option value="2">2 cuotas</option>
+    <option value="3">3 cuotas</option>
+    <option value="4">4 cuotas</option>
+    <option value="5">5 cuotas</option>
+    <option value="6">6 cuotas</option>
+    <option value="7">7 cuotas</option>
+    <option value="8">8 cuotas</option>
+    <option value="9">9 cuotas</option>
+    <option value="10">10 cuotas</option>
+    <option value="11">11 cuotas</option>
+    <option value="12">12 cuotas</option>
+    <option value="13">13 cuotas</option>
+    <option value="14">14 cuotas</option>
+    <option value="15">15 cuotas</option>
+    <option value="16">16 cuotas</option>
+    <option value="17">17 cuotas</option>
+    <option value="18">18 cuotas</option>
+    <option value="19">19 cuotas</option>
+    <option value="20">20 cuotas</option>
+    <option value="21">21 cuotas</option>
+    <option value="22">22 cuotas</option>
+    <option value="23">23 cuotas</option>
+    <option value="24">24 cuotas</option>
+    <option value="25">25 cuotas</option>
+    <option value="26">26 cuotas</option>
+    <option value="27">27 cuotas</option>
+    <option value="28">28 cuotas</option>
+    <option value="29">29 cuotas</option>
+    <option value="30">30 cuotas</option>
+    <option value="31">31 cuotas</option>
+    <option value="32">32 cuotas</option>
+    <option value="33">33 cuotas</option>
+    <option value="34">34 cuotas</option>
+    <option value="35">35 cuotas</option>
+    <option value="36">36 cuotas</option>
+  </select>
+  <br><br>
 
     <label for="tipoAmortizacion">Tipo de amortización:</label>
     <select id="tipoAmortizacion" name="tipoAmortizacion" required>
         <option value="francesa">Plan de pagos</option>
-        <option value="alemana">Avance</option>
+        <option value="alemana">Compra</option>
       <!--  <option value="alemana_sin_intereses_primera_cuota">Compra</option>-->
     </select><br><br>
 
@@ -162,7 +200,7 @@
     // Variable global para almacenar la tabla
     var tablaPlanPagos = null;
 
-    var tasaInteresAnual = 2.3102;
+    var tasaInteresAnual = 31.53;
 
    document.getElementById("formulario").addEventListener("submit", function(event) {
     event.preventDefault(); // Evitar que se envíe el formulario
