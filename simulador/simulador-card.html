@@ -266,12 +266,21 @@ function actualizarTabla(planPagos) {
             // fila.insertCell().textContent = parseFloat(pago.saldoPendiente).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
             // fila.insertCell().textContent = parseFloat(pago.cuotaTotal).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
             // fila.insertCell().textContent = pago.fechaCorte;
-            fila.insertCell().textContent = pago.cuota;
-            fila.insertCell().textContent = pago.cuotaCapital;
-            fila.insertCell().textContent = pago.interesMensual;
-            fila.insertCell().textContent = pago.saldoPendiente;
-            fila.insertCell().textContent = pago.cuotaTotal;
-            fila.insertCell().textContent = pago.fechaCorte;
+            // fila.insertCell().textContent = pago.cuota;
+            // fila.insertCell().textContent = pago.cuotaCapital;
+            // fila.insertCell().textContent = pago.interesMensual;
+            // fila.insertCell().textContent = pago.saldoPendiente;
+            // fila.insertCell().textContent = pago.cuotaTotal;
+            // fila.insertCell().textContent = pago.fechaCorte;
+            fila.insertCell().textContent = pago.cuota.toLocaleString('es-CO');
+fila.insertCell().textContent = parseFloat(pago.cuotaCapital).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+fila.insertCell().textContent = parseFloat(pago.interesMensual).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+fila.insertCell().textContent = parseFloat(pago.saldoPendiente).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+fila.insertCell().textContent = parseFloat(pago.cuotaTotal).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+fila.insertCell().textContent = pago.fechaCorte;        
+
+            
+            
         });
     }
 
