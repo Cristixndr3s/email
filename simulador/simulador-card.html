@@ -303,7 +303,7 @@ fila.insertCell().textContent = pago.fechaCorte;
         }
     }
 
-    var tasaInteresMensual = tasaInteresAnual / 12 / 100;
+    var tasaInteresMensual = Math.pow(1 + tasaInteresAnual/100, 1 / 12) - 1;
     var cuotaMensual, cuotaCapital, saldoPendiente, interesMensual;
     var planPagos = [];
     saldoPendiente = montoPrestamo;
@@ -4317,7 +4317,7 @@ fila.insertCell().textContent = pago.fechaCorte;
 
     for (var i = 1; i <= plazoMeses; i++) {
         var fechaCorteObj = encontrarFechaCorteMasCercana(fechaCompraObj, fechasCorte);
-        var diasPeriodo = (fechaCorteObj - fechaCompraObj) / (1000 * 60 * 60 * 24);
+        var diasPeriodo = Math.ceil((fechaCorteObj - fechaCompraObj) / (1000 * 60 * 60 * 24));
         
         if (tipoAmortizacion === "francesa") {
             cuotaMensual = montoPrestamo * tasaInteresMensual / (1 - Math.pow(1 + tasaInteresMensual, -plazoMeses));
@@ -4350,6 +4350,16 @@ fila.insertCell().textContent = pago.fechaCorte;
 
     return planPagos;
 }
+
+// Ejemplo de uso
+var montoPrestamo = 128300; // Monto del préstamo
+var tasaInteresAnual = 31.53; // Tasa de interés anual (en porcentaje)
+var plazoMeses = 7; // Plazo en meses
+var tipoAmortizacion = "alemana"; // "francesa" o "alemana"
+var fechaCompra = "2024-05-17"; // Fecha de compra
+var fechasCorteElegidas = "A"; // Opciones: "A"
+var planPagos = calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmortizacion, fechaCompra, fechasCorteElegidas);
+;
 
 
 
