@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Plan de Pagos</title>
 
+
     <style>
+       
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -16,7 +18,7 @@
             align-items: center;
             margin-top: 40px;
         }
-    
+
         .container {
             display: flex;
             max-width: 90%; /* Ajustar según sea necesario */
@@ -93,6 +95,59 @@
         .input-container-2 {
             width: 70%;
         }
+        <!--tarifas-->
+        .accordion{
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            font-size: 1.5em;
+            transition: 0.4s;
+            color: black;
+            display: block;
+            background-color: #f2f2f2;
+            text-decoration: none; /* Eliminar la decoración del enlace */
+            border-bottom: 1px solid black; 
+        }
+        .active, .accordion:hover {
+            color: #ccc;
+        }
+        .accordion:after {
+            content: '\002B'; /* Unicode character for down arrow */
+            font-size: 1.5em;
+            float: right;
+        }
+        .active:after {
+            content: "\2212"; /* Unicode character for up arrow */
+        }
+        .panel {
+            
+            display: none;
+            overflow: hidden;
+            background-color: white;
+            margin-top: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+           
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        caption {
+            caption-side: top;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        <!--fin-->
     
         /* Estilos específicos para dispositivos móviles */
         @media only screen and (max-width: 600px) {
@@ -115,8 +170,6 @@
     </style>
 </head>
 <body>
-
-<h2>Calculadora de Plan de Pagos</h2>
 <div class="container">
     <div class="input-container">
 <form id="formulario">
@@ -186,6 +239,28 @@
     </select><br><br>
 
     <button type="submit">Calcular Plan de Pagos</button>
+        
+    <a href="#" class="accordion" style="text-decoration: none; color: #000000;">Tasas de interés vigentes</a>
+    <div class="panel">
+        <table>
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Tasa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tasa EA</td>
+                    <td>31.53%</td>
+                </tr>
+                <tr>
+                    <td>Tasa MV</td>
+                    <td>2.3102%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </form>
 </div>
 
@@ -196,6 +271,56 @@
 </div>
 
 </div>
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+</script>
+<script>
+    const input = document.getElementById('montoPrestamo');
+
+    // Variable para almacenar el valor sin formato
+    let rawValue = '';
+
+    input.addEventListener('input', function (e) {
+        // Obtener el valor ingresado por el usuario
+        let value = e.target.value;
+
+        // Eliminar todo excepto números
+        value = value.replace(/[^0-9]/g, '');
+
+        // Actualizar la variable con el valor sin formato
+        rawValue = value;
+
+        // Formatear el valor para mostrarlo al usuario
+        const formattedValue = new Intl.NumberFormat('es-ES').format(value);
+        
+        // Establecer el valor formateado en el campo visible
+        e.target.value = formattedValue;
+    });
+
+    input.addEventListener('blur', function (e) {
+        // Restaurar el valor sin formato al salir del campo para cálculos
+        e.target.value = rawValue;
+    });
+
+    input.addEventListener('focus', function (e) {
+        // Formatear el valor al entrar en el campo para mostrarlo al usuario
+        const formattedValue = new Intl.NumberFormat('es-ES').format(rawValue);
+        e.target.value = formattedValue;
+    });
+</script>
 <script>
     // Variable global para almacenar la tabla
     var tablaPlanPagos = null;
@@ -260,18 +385,6 @@ function actualizarTabla(planPagos) {
         var cuerpo = tablaPlanPagos.createTBody();
         planPagos.forEach(function(pago) {
             var fila = cuerpo.insertRow();
-            // fila.insertCell().textContent = pago.cuota;
-            // fila.insertCell().textContent = parseFloat(pago.cuotaCapital).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-            // fila.insertCell().textContent = parseFloat(pago.interesMensual).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-            // fila.insertCell().textContent = parseFloat(pago.saldoPendiente).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-            // fila.insertCell().textContent = parseFloat(pago.cuotaTotal).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-            // fila.insertCell().textContent = pago.fechaCorte;
-            // fila.insertCell().textContent = pago.cuota;
-            // fila.insertCell().textContent = pago.cuotaCapital;
-            // fila.insertCell().textContent = pago.interesMensual;
-            // fila.insertCell().textContent = pago.saldoPendiente;
-            // fila.insertCell().textContent = pago.cuotaTotal;
-            // fila.insertCell().textContent = pago.fechaCorte;
             fila.insertCell().textContent = pago.cuota.toLocaleString('es-CO');
 fila.insertCell().textContent = parseFloat(pago.cuotaCapital).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 fila.insertCell().textContent = parseFloat(pago.interesMensual).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
@@ -284,7 +397,7 @@ fila.insertCell().textContent = pago.fechaCorte;
         });
     }
 
-    function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmortizacion, fechaCompra, fechasCorteElegidas) {
+function calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmortizacion, fechaCompra, fechasCorteElegidas) {
     function encontrarFechaCorteMasCercana(fechaCompra, fechasCorte) {
         var fechaCompraObj = new Date(fechaCompra);
         var fechasCorteFuturas = fechasCorte.map(function(fechaCorte) {
@@ -4351,15 +4464,7 @@ fila.insertCell().textContent = pago.fechaCorte;
     return planPagos;
 }
 
-// Ejemplo de uso
-var montoPrestamo = 128300; // Monto del préstamo
-var tasaInteresAnual = 31.53; // Tasa de interés anual (en porcentaje)
-var plazoMeses = 7; // Plazo en meses
-var tipoAmortizacion = "alemana"; // "francesa" o "alemana"
-var fechaCompra = "2024-05-17"; // Fecha de compra
-var fechasCorteElegidas = "A"; // Opciones: "A"
-var planPagos = calcularPlanPagos(montoPrestamo, tasaInteresAnual, plazoMeses, tipoAmortizacion, fechaCompra, fechasCorteElegidas);
-;
+
 
 
 
