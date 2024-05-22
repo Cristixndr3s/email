@@ -223,7 +223,7 @@
 
     <label for="tipoAmortizacion">Tipo de amortización:</label>
     <select id="tipoAmortizacion" name="tipoAmortizacion" required>
-        <!--<option value="francesa">Plan de pagos</option>-->
+        <option value="francesa">Plan de pagos</option>
         <option value="alemana">Compra</option>
       <!--  <option value="alemana_sin_intereses_primera_cuota">Compra</option>-->
     </select><br><br>
@@ -4432,11 +4432,29 @@ fila.insertCell().textContent = pago.fechaCorte;
     for (var i = 1; i <= plazoMeses; i++) {
         var fechaCorteObj = encontrarFechaCorteMasCercana(fechaCompraObj, fechasCorte);
         var diasPeriodo = Math.ceil((fechaCorteObj - fechaCompraObj) / (1000 * 60 * 60 * 24));
-        
+     
+
         if (tipoAmortizacion === "francesa") {
-            cuotaMensual = montoPrestamo * tasaInteresMensual / (1 - Math.pow(1 + tasaInteresMensual, -plazoMeses));
-            interesMensual = saldoPendiente * tasaInteresMensual * diasPeriodo / 30;
+            if (i === 1) {
+            interesMensual=parseFloat((saldoPendiente * tasaInteresMensual * diasPeriodo / 30).toFixed(2));
+            console.log(interesMensual)
+            var tipo=1;
+            var nn=parseFloat(((saldoPendiente * tasaInteresMensual * diasPeriodo / 30)+montoPrestamo).toFixed(2));
+            console.log(nn+'a')
+            console.log(tasaInteresMensual)
+            console.log(plazoMeses)
+            cuotaMensual = calcularPagoMensualInicioPeriodo(nn,tasaInteresMensual,plazoMeses);
+            cuotaCapital = cuotaMensual - interesMensual ;
+            }
+            else
+            {
+            interesMensual = saldoPendiente * tasaInteresMensual * 30 / 30;
+            cuotaMensual = calcularPagoMensualInicioPeriodo(nn,tasaInteresMensual,plazoMeses);
             cuotaCapital = cuotaMensual - interesMensual;
+            }
+
+            
+            ;
         } else if (tipoAmortizacion === "alemana") {
             cuotaCapital = montoPrestamo / plazoMeses;
             interesMensual = saldoPendiente * tasaInteresMensual * diasPeriodo / 30;
@@ -4459,10 +4477,19 @@ fila.insertCell().textContent = pago.fechaCorte;
         });
 
         fechaCompraObj = new Date(fechaCorteObj);
-        fechaCorteObj.setMonth(fechaCorteObj.getMonth() + 1);
+        
     }
 
     return planPagos;
+}
+
+
+function calcularPagoMensualInicioPeriodo(montoPrestamo, tasaInteresMensual, numMeses) {
+    // Calcular el pago mensual usando la fórmula ajustada para pagos al inicio del periodo
+    let factor = Math.pow(1 + tasaInteresMensual, numMeses);
+    let pagoMensual = (montoPrestamo * tasaInteresMensual * factor) / (factor - 1) / (1 + tasaInteresMensual);
+    
+    return pagoMensual;
 }
 
 
