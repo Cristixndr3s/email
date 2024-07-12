@@ -372,6 +372,12 @@ function actualizarTabla(planPagos) {
         // Limpiar el contenido de la tabla
         tablaPlanPagos.innerHTML = "";
 
+        // Crear el mensaje de advertencia
+var advertencia = document.createElement("p");
+advertencia.textContent = "ⓘ Recuerda, las compras a una cuota no tienen intereses, excepto cuando haces avances.";
+advertencia.style.color = "#6168db"; // Cambia el color del texto si lo deseas
+tablaPlanPagos.parentNode.insertBefore(advertencia, tablaPlanPagos); // Inserta el mensaje antes de la tabla
+
         // Crear la cabecera de la tabla
         var cabecera = tablaPlanPagos.createTHead();
         var filaCabecera = cabecera.insertRow();

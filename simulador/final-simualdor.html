@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Rentabilidad</title>
+<style>
+    /* Estilos del formulario y contenedor de resultadosC */
+    .container {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #resultadosC {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Otros estilos */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    h2 {
+        margin-top: 30px;
+    }
+    /* Estilo para el div activado */
+    #funelBajoMinimoC {
+        display: none;
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    #funelMaxC {
+        display: none;
+    }
+</style>
+</head>
+<body>
+ 
+
+
+        <h1>Calculadora de Rentabilidad</h1>
+        <label style="display:none;" for="saldoPromedioContinuo"></label>
+        <input style="display: none;" type="text" id="saldoPromedioContinuo" oninput="formatInputValue('saldoPromedioContinuo')" placeholder="Ingrese el saldo promedio">
+        <label>Monto de ahorro mensual</label>
+        <input type="text" id="abonosContinuos" oninput="formatInputValue('abonosContinuos')" placeholder="Ingrese el monto a ahorrar mensualmente">
+        <label for="plazoContinuo"></label>¿Durante cuántos meses?</label>
+        <input type="text" id="plazoContinuo" placeholder="Ingrese el plazo">
+        <button type="button" id="calcularBtnContinuo" onclick="calcularRentabilidadContinuo()">Calcular</button>
+    
+        <div id="funelBajoMinimoC">
+            <p>Tu inversión por: <span id="ahorroContinuoBajo"></span></p>
+            <p>Te puede generar: <span id="ahorroContinuoFinalBajo"></span></p>
+            <p>plazoContinuo en meses: <span id="continuoplazoContinuoBajo"></span></p>
+        </div>
+        <div id="funelMaxC">
+            <!-- Mensaje para el saldo final mayor a cierto valor -->
+            <p>Tu saldo final es mayor al límite establecido.</p>
+            <p>Tu inversión por: <span id="ahorroContinuoAlto"></span></p>
+            <p>Te puede generar: <span id="ahorroContinuoFinalAlto"></span></p>
+            <p>plazoContinuo en meses: <span id="continuoplazoContinuoAlto"></span></p>
+        </div>
+    
+        <div id="resultadosC"></div>
+    </div>
+
+    <script>
+        var primerCalculo = true;
+        var datosPorMes = [];
+    
+        function calcularRentabilidadContinuo() {
+            var saldoPromedioContinuo = parseFloat(document.getElementById("saldoPromedioContinuo").value.replace(/\./g, '').replace(/,/g, '.')) || 0;
+            var plazoContinuo = parseInt(document.getElementById("plazoContinuo").value) || 0;
+            var abonosContinuos = parseFloat(document.getElementById("abonosContinuos").value.replace(/\./g, '').replace(/,/g, '.')) || 0;
+    
+            var tasaEA1 = Math.pow(1 + 0.01, 1 / 12) - 1;
+            var tasaEA10 = Math.pow(1 + 0.10, 1 / 12) - 1;
+    
+            var resultadosCDiv = document.getElementById("resultadosC");
+            resultadosCDiv.innerHTML = ""; // Limpiar resultadosC anteriores
+    
+            var tableHTML = "<h2>resultadosC</h2><table>" +
+                            "<tr><th>Mes</th><th>Saldo Inicial</th><th>abonosContinuos</th><th>Saldo antes</th><th>Intereses</th><th>Saldo Final</th></tr>";
+    
+            var saldoInicial = saldoPromedioContinuo;
+            for (var mes = 1; mes <= plazoContinuo; mes++) {
+                var saldoAntesIntereses = saldoInicial + abonosContinuos;
+                var intereses = saldoAntesIntereses < 2000000 ? saldoAntesIntereses * tasaEA1 : saldoAntesIntereses * tasaEA10;
+                var saldoFinal = saldoAntesIntereses + intereses;
+    
+                // Guardar los datos del mes
+                var datosMes = {
+                    mes: mes,
+                    saldoInicial: saldoInicial,
+                    abonosContinuos: abonosContinuos,
+                    saldoAntesIntereses: saldoAntesIntereses,
+                    intereses: intereses,
+                    saldoFinal: saldoFinal
+                };
+                datosPorMes.push(datosMes);
+    
+                // Formatear valores para mostrarlos en pesos colombianos con puntos decimales
+                saldoInicialFormatted = formatCurrency(saldoInicial);
+                abonosContinuosFormatted = formatCurrency(abonosContinuos);
+                saldoAntesInteresesFormatted = formatCurrency(saldoAntesIntereses);
+                interesesFormatted = formatCurrency(intereses);
+                saldoFinalFormatted = formatCurrency(saldoFinal);
+    
+                tableHTML += "<tr><td>" + mes + "</td><td>" + saldoInicialFormatted + "</td><td>" + abonosContinuosFormatted + "</td><td>" + saldoAntesInteresesFormatted + "</td><td>" + interesesFormatted + "</td><td>" + saldoFinalFormatted + "</td></tr>";
+    
+                // Actualizar saldo inicial para el siguiente mes
+                saldoInicial = saldoFinal;
+            }
+            tableHTML += "</table>";
+            resultadosCDiv.innerHTML = tableHTML;
+    
+            // Mostrar mensaje si el saldo final en el último mes es menor a 2000000
+            var funelBajoMinimoC = document.getElementById("funelBajoMinimoC");
+            if (saldoFinal < 2000000) {
+                // Obtener los datos del último mes
+                var ultimoMes = datosPorMes[datosPorMes.length - 1];
+                // Actualizar el contenido de los spans con los datos del último mes
+                document.getElementById("ahorroContinuoBajo").innerText = formatCurrency(datosPorMes[0].saldoAntesIntereses);
+                document.getElementById("ahorroContinuoFinalBajo").innerText = formatCurrency(ultimoMes.saldoFinal);
+                document.getElementById("continuoplazoContinuoBajo").innerText = plazoContinuo;
+                // Mostrar el div
+                funelBajoMinimoC.style.display = "block";
+            } else {
+                funelBajoMinimoC.style.display = "none";
+            }
+    
+            // Mostrar mensaje si el saldo final en el último mes es mayor a 2000000
+            var funelMaxC = document.getElementById("funelMaxC");
+            if (saldoFinal > 2000000) {
+                // Obtener los datos del último mes
+                var ultimoMes = datosPorMes[datosPorMes.length - 1];
+                // Actualizar el contenido de los spans con los datos del último mes
+                document.getElementById("ahorroContinuoAlto").innerText = formatCurrency(datosPorMes[0].saldoAntesIntereses);
+                document.getElementById("ahorroContinuoFinalAlto").innerText = formatCurrency(ultimoMes.saldoFinal);
+                document.getElementById("continuoplazoContinuoAlto").innerText = plazoContinuo;
+                // Mostrar el div
+                funelMaxC.style.display = "block";
+            } else {
+                funelMaxC.style.display = "none";
+            }
+    
+            // Cambiar el texto del botón a "Recalcular" después del primer cálculo
+            if (primerCalculo) {
+                document.getElementById("calcularBtnContinuo").innerText = "Recalcular";
+                primerCalculo = false;
+            }
+        }
+    
+        function formatCurrency(amount) {
+            return amount.toLocaleString('es-CO', {style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0});
+        }
+    
+        // Función para dar formato mientras se escribe
+        function formatInputValue(elementId) {
+            var element = document.getElementById(elementId);
+            var value = element.value.replace(/\./g, '').replace(/,/g, '.');
+            element.value = parseFloat(value).toLocaleString('es-CO');
+        }
+    </script>
+    
+</body>
+</html>
+
