@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Rentabilidad</title>
+</head>
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.input-group input {
+    width: 100px;
+    text-align: center;
+}
+
+.input-group button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.input-group button:hover {
+    background: #0056b3;
+}
+
+#results {
+    margin-top: 20px;
+}
+</style>
+<body>
+    <div class="container">
+        <h1>¡Haz que tu Dinero Trabaje Más para Ti!</h1>
+        <p>Simula tu Rentabilidad y Ve Cómo tu Dinero Crece al 14% Efectivo Anual, Superando a las Cuentas de Ahorro Tradicionales.</p>
+
+        <div class="input-group">
+            <label for="amount">Imagina que depositas en tu cuenta:</label>
+            <button onclick="changeAmount(-50000)">-</button>$
+            <input type="number" id="amount" value="2000000" onchange="calculateProfit()">
+            <button onclick="changeAmount(50000)">+</button>
+        </div>
+
+        <div class="input-group">
+            <label for="months">durante</label>
+            <button onclick="changeMonths(-1)">-</button>
+            <input type="number" id="months" value="12" onchange="calculateProfit()"> meses
+            <button onclick="changeMonths(1)">+</button>
+        </div>
+
+        <div id="results">
+            <p>En <span id="result-months">12</span> Meses Generas:</p>
+            <p id="profit-14">$<span id="amount-14">280000</span> si tu cuenta está exenta del GMF (4x1000) o recibes $2.000.000 o más en los últimos 30 días. </p>
+            <p id="profit-10">$<span id="amount-10">200000</span> si no cumples con las condiciones para el 14% E.A.</p><hr>
+            <p style="font-size: 11px;">Recuerda Saldo menor a $2.000.000: tu dinero rentará al 1%.<br><br>
+                Ten en cuenta que los valores mostrados en este simulador son aproximados y pueden variar. Para conocer más detalles conoce nuestras tasas y tarifas.</p>
+        </div>
+    </div>
+    <script>
+function formatNumber(num) {
+    return num.toLocaleString('es-ES'); // Usa el formato de números en español con comas
+}
+
+function calculateProfit() {
+    const amount = parseFloat(document.getElementById('amount').value);
+    const months = parseFloat(document.getElementById('months').value);
+
+    const profit14 = (amount * 0.14 * (months / 12)).toFixed(2);
+    const profit10 = (amount * 0.10 * (months / 12)).toFixed(2);
+
+    document.getElementById('amount-14').innerText = formatNumber(parseFloat(profit14));
+    document.getElementById('amount-10').innerText = formatNumber(parseFloat(profit10));
+    document.getElementById('result-months').innerText = months;
+}
+
+function changeAmount(amountChange) {
+    const amountInput = document.getElementById('amount');
+    const newAmount = parseFloat(amountInput.value) + amountChange;
+    if (newAmount >= 0) {
+        amountInput.value = newAmount;
+        calculateProfit();
+    }
+}
+
+function changeMonths(monthsChange) {
+    const monthsInput = document.getElementById('months');
+    const newMonths = parseFloat(monthsInput.value) + monthsChange;
+    if (newMonths >= 1) {
+        monthsInput.value = newMonths;
+        calculateProfit();
+    }
+}
+
+// Inicializar con valores predeterminados
+calculateProfit();
+
+    </script>
+</body>
+</html>
