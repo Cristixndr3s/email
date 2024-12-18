@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Rentabilidad</title>
+</head>
+<body>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container-calculadora {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.resultado {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+}
+
+p {
+    margin: 5px 0;
+}
+
+    </style>
+
+    <div class="container-calculadora">
+        <h1>Calculadora de Rentabilidad</h1>
+        <form id="calculadora-form">
+            <label for="saldo">Saldo:</label>
+            <input type="text" id="saldo" name="saldo" placeholder="2.000.000" oninput="formatearInput(this)">
+            <label for="meses">Meses:</label>
+            <input type="number" id="meses" name="meses" placeholder="12">
+            <button type="button" id="calcular-btn">Calcular</button>
+        </form>
+        <div id="resultados" style="display: none;">
+            <div class="resultado" id="resultado-10">
+                <p><span>Tu rentabilidad es: </span><span id="rentabilidad-10"></span></p>
+                <p><span>Recibes: </span><span id="mensual-10"></span> <span>mensuales con </span><span id="porcentaje-10"></span><span>%/</span><span id="meses-10"></span><span> meses</span></p>
+            </div>
+            <div class="resultado" id="resultado-14">
+                <p><span>Tu rentabilidad es: </span><span id="rentabilidad-14"></span></p>
+                <p><span>Recibes: </span><span id="mensual-14"></span> <span>mensuales con 14%/</span><span id="meses-14"></span><span> meses</span></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('calcular-btn').addEventListener('click', calcularRentabilidad);
+
+function formatearNumero(valor) {
+    return valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function formatearInput(input) {
+    const valor = input.value.replace(/\D/g, '');
+    input.value = formatearNumero(valor);
+}
+
+function calcularRentabilidad() {
+    const saldo = document.getElementById('saldo').value.replace(/\./g, '');
+    const meses = parseInt(document.getElementById('meses').value);
+
+    if (!saldo || !meses || isNaN(saldo) || isNaN(meses)) {
+        alert('Por favor, ingrese valores válidos.');
+        return;
+    }
+
+    const saldoInicial = parseFloat(saldo);
+    let tasa10 = 0.10;
+
+    // Cambiar la tasa al 1% si el saldo es menor a 2 millones
+    if (saldoInicial < 2000000) {
+        tasa10 = 0.01;
+    }
+
+    const tasa14 = 0.14;
+
+    // Calcular la rentabilidad total con el 10% (o 1%) anual
+    const rentabilidad10 = saldoInicial * Math.pow(1 + tasa10 / 1, 1 * (meses / 12));
+    // Calcular la rentabilidad total con el 14% anual
+    const rentabilidad14 = saldoInicial * Math.pow(1 + tasa14 / 1, 1 * (meses / 12));
+
+    // Calcular la rentabilidad mensual
+    const rentabilidadMensual10 = rentabilidad10 - saldo;
+    const rentabilidadMensual14 = rentabilidad14 - saldo;
+
+    document.getElementById('rentabilidad-10').innerText = formatearNumero(rentabilidad10.toFixed(2));
+    document.getElementById('mensual-10').innerText = formatearNumero(rentabilidadMensual10.toFixed(2));
+    document.getElementById('meses-10').innerText = meses;
+    document.getElementById('porcentaje-10').innerText = (tasa10 * 100).toFixed(0);
+
+    document.getElementById('rentabilidad-14').innerText = formatearNumero(rentabilidad14.toFixed(2));
+    document.getElementById('mensual-14').innerText = formatearNumero(rentabilidadMensual14.toFixed(2));
+    document.getElementById('meses-14').innerText = meses;
+
+    document.getElementById('resultados').style.display = 'block';
+    document.getElementById('calcular-btn').innerText = 'Recalcular';
+}
+
+    </script>
+</body>
+</html>
